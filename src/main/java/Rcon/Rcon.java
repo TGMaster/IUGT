@@ -1,5 +1,6 @@
 package Rcon;
 
+import Util.AuthenticationException;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.Charset;

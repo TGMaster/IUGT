@@ -1,4 +1,4 @@
-package Rcon;
+package Util;
 
 import java.io.IOException;
 

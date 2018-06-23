@@ -1,4 +1,4 @@
-package Rcon;
+package Util;
 
 public class AuthenticationException extends Exception {
 
