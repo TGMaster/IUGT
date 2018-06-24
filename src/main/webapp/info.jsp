@@ -25,8 +25,9 @@
         %>
         <p>ID: <%=player.getId()%></p>
         <p>Name: <%=player.getName()%></p>
-        <p>URL: <a href="<%=player.getUrl()%>"></a></p>
+        <p>URL: <a href="<%=player.getUrl()%>"><%=player.getUrl()%></a></p>
         <p><img src="<%=player.getAvatar()%>"></p>
+        <a href="chat">Chat Room</a>
         <a href="users?action=logout">Logout</a>
             <% } else {%>
         <a href="users?action=login">Login</a>

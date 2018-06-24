@@ -12,4 +12,5 @@ package Config;
 public class Config {
     public static final String SteamAPI = "9558B95CA63CD2A72FCFCB68FBC2049C";
     public static final String LinkAPI = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/?key=";
+    public static final String Host = "localhost:8080";
 }
