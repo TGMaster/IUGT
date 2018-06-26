@@ -10,14 +10,13 @@ package Chat;
  * @author TGMaster
  */
 import POJO.Player;
+import Config.Config;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import javax.servlet.http.HttpSession;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -25,41 +24,64 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/chatServer", configurator = HttpSessionConfigurator.class)
+@ServerEndpoint(value = "/chatServer")
 public class Server {
 
     private String username;
-    private HttpSession httpSession;
-    static Set<Session> users = Collections.synchronizedSet(new HashSet<Session>());
+    //static Set<Session> users = Collections.synchronizedSet(new HashSet<Session>());
 
     @OnOpen
-    public void handleOpen(Session session, EndpointConfig config) throws IOException {
-        // HttpSession stuff
-        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        Player p = (Player) httpSession.getAttribute("player");
-        username = p.getName();
+    public void handleOpen(Session session) {
 
-        // Session settings
-        session.getBasicRemote().sendText("Hi " + username);
-        session.getUserProperties().put("username", username);
-        users.add(session);
     }
 
     @OnMessage
-    public void handleMessage(String message) throws IOException {
-        for (Session session : users) {
-            session.getBasicRemote().sendText(username + ": " + message);
+    public void handleMessage(String message, Session session) {
+        Gson gson = new GsonBuilder().create();
+        JsonObject json = gson.fromJson(message, JsonElement.class).getAsJsonObject();
+        if (Config.JOIN_CHAT.equals(json.get("action").getAsString())) {
+            joinChat(json, session);
         }
+        if (Config.LEAVE_CHAT.equals(json.get("action").getAsString())) {
+            leaveChat(json, session);
+        }
+        if (Config.CHAT_MSG.equals(json.get("action").getAsString())) {
+            chatMessage(json, session);
+        }
+        /*
+        for (Session s : users) {
+            s.getBasicRemote().sendText(username + ": " + message);
+        }
+         */
     }
 
     @OnClose
     public void handleClose(Session session) {
-        users.remove(session);
+        //users.remove(session);
     }
 
     @OnError
     public void handleError(Throwable t) {
-        t.printStackTrace();
+        //t.printStackTrace();
     }
 
+    private void joinChat(JsonObject json, Session session) {
+        Player p = new Player();
+        p.setId(json.get("id").getAsLong());
+        p.setName(json.get("name").getAsString());
+        p.setUrl(json.get("url").getAsString());
+        p.setAvatar(json.get("img").getAsString());
+        UserManager.joinChat(p, session);
+    }
+
+    private void leaveChat(JsonObject json, Session session) {
+        Long id = json.get("id").getAsLong();
+        UserManager.leaveChat(id, session);
+    }
+
+    private void chatMessage(JsonObject json, Session session) {
+        Long id = json.get("id").getAsLong();
+        String msg = json.get("message").getAsString();
+        UserManager.sendMessage(id, msg);
+    }
 }

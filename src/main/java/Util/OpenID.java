@@ -20,8 +20,8 @@ import org.expressme.openid.OpenIdManager;
 public class OpenID extends HttpServlet {
 
     private static final String STEAM_OPENID = "https://steamcommunity.com/openid";
-    private static final String STEAM_RETURN = "http://" + Config.Host + "/IUGT/users";
-    private static final String STEAM_REALM = "http://" + Config.Host;
+    private static final String STEAM_RETURN = "http://" + Config.HOST_URL + "/IUGT/users";
+    private static final String STEAM_REALM = "http://" + Config.HOST_URL;
     private static final String ATTR_MAC = "openid_mac";
     private static final String ATTR_ALIAS = "openid_alias";
     private OpenIdManager manager;

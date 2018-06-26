@@ -8,6 +8,10 @@
         <servlet-name>ChatController</servlet-name>
         <servlet-class>Controller.ChatController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MatchController</servlet-name>
+        <servlet-class>Controller.MatchController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ChatController</servlet-name>
         <url-pattern>/chat</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MatchController</servlet-name>
+        <url-pattern>/match</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

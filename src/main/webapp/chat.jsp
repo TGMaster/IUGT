@@ -4,57 +4,40 @@
     Author     : TGMaster
 --%>
 
-<%@page import="Config.Config"%>
+<%@page import="Config.Config, POJO.Player"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chat Page</title>
+
+        <%Player p = (Player) session.getAttribute("player");%>
+        <script type="text/javascript">
+            var socketUrl = "ws://localhost:8080/IUGT/chatServer";
+            var userId = <%=p.getId()%>;
+            var userName = "<%=p.getName()%>";
+            var userImg = "<%=p.getAvatar()%>";
+            var userUrl = "<%=p.getUrl()%>";
+        </script>
+
     </head>
-    <body>
-        <h2>Demo WebSocket Chat Room</h2>
+    <body onbeforeunload="return closeSocket()">
+        <h2>Chat Room</h2>
+
         <input id="textMessage" type="text" />
-        <input onclick="sendMessage()" value="Send Message" type="button" /> <br/><br/>
+        <input onclick="sendMessage()" value="Send Message" type="button" id="sendMsg" /> <br/><br/>
 
         <textarea id="textAreaMessage" rows="10" cols="50"></textarea>
 
+        <div>
+            <h4>Online List:</h4>
+            <div id="onlineList"></div>
+        </div>
+        
+        <script src="js/websocket.js"></script>
         <script type="text/javascript">
-            var websocket = new WebSocket("ws://<%=Config.Host%>/IUGT/chatServer");
-            websocket.onopen = function (message) {
-                processOpen(message);
-            };
-            websocket.onmessage = function (message) {
-                processMessage(message);
-            };
-            websocket.onclose = function (message) {
-                processClose(message);
-            };
-            websocket.onerror = function (message) {
-                processError(message);
-            };
-
-            function processOpen(message) {
-                textAreaMessage.value += "Server connected... \n";
-            }
-            function processMessage(message) {
-                console.log(message);
-                textAreaMessage.value += message.data + " \n";
-            }
-            function processClose(message) {
-                textAreaMessage.value += "Server Disconnect... \n";
-            }
-            function processError(message) {
-                textAreaMessage.value += "Error... " + message + " \n";
-            }
-
-            function sendMessage() {
-                if (typeof websocket != 'undefined' && websocket.readyState == WebSocket.OPEN) {
-                    websocket.send(textMessage.value);
-                    textMessage.value = "";
-                }
-            }
-
+            start();
         </script>
     </body>
 </html>

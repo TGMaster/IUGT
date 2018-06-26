@@ -5,26 +5,22 @@
  */
 package Controller;
 
-import Config.Config;
 import POJO.Player;
-import Util.Json;
-import Util.OpenID;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.JsonObject;
 /**
  *
  * @author TGMaster
  */
-public class UserController extends HttpServlet {
+public class MatchController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,34 +42,19 @@ public class UserController extends HttpServlet {
         // Call session
         HttpSession session = request.getSession();
 
-        OpenID op = new OpenID();
-        String action = request.getParameter("action");
-
-        if (action == null) {
-            // Create object
-            Player player = new Player();
-            String identity = op.authentication(request);
-            identity = identity.replace("https://steamcommunity.com/openid/id/", "");
-            
-            // Get json
-            String sURL = Config.LINK_API + Config.STEAM_API + "&steamids=" + identity;
-            JsonObject json = Json.readJsonFromUrl(sURL);
-            
-            // Set attributes
-            player.setId(Long.parseLong(identity));
-            player.setName(json.get("personaname").getAsString());
-            player.setUrl(json.get("profileurl").getAsString());
-            player.setAvatar(json.get("avatarfull").getAsString());
-            
-            session.setAttribute("player", player);
+        Player p = (Player) session.getAttribute("player");
+        if (p == null) {
             response.sendRedirect("info.jsp");
-            
-        } else if (action.equals("login")) {
-            String url = op.login(request);
-            response.sendRedirect(url);
-        } else if (action.equals("logout")) {
-            request.getSession().removeAttribute("player");
-            response.sendRedirect("info.jsp");
+        } else {
+            String team = request.getParameter("team");
+            if (team == null) {
+            } else if (team.equals("1")) {
+                request.setAttribute("team", "Team1");
+            } else if (team.equals("2")) {
+                request.setAttribute("team", "Team2");
+            }
+            rd = sc.getRequestDispatcher("/game.jsp");
+            rd.forward(request, response);
         }
     }
 
