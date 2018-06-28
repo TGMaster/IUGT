@@ -17,5 +17,9 @@ public class Config {
     public static final String LEAVE_CHAT  = "leave";
     public static final String CHAT_MSG  = "chat";
     public static final String UPDATE_LIST = "update";
-    
+    public static final String CHOOSE_TEAM = "team";
+    public static final String SWAP_TEAM = "swap";
+    public static final String TEAM_CT = "team1";
+    public static final String TEAM_T = "team2";
+    public static final String TEAM_SPEC = "team3";
 }

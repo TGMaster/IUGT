@@ -48,6 +48,9 @@ public class Server {
         if (Config.CHAT_MSG.equals(json.get("action").getAsString())) {
             chatMessage(json, session);
         }
+        if (Config.SWAP_TEAM.equals(json.get("action").getAsString())) {
+            swapTeam(json, session);
+        }
         /*
         for (Session s : users) {
             s.getBasicRemote().sendText(username + ": " + message);
@@ -83,5 +86,10 @@ public class Server {
         Long id = json.get("id").getAsLong();
         String msg = json.get("message").getAsString();
         UserManager.sendMessage(id, msg);
+    }
+    
+    private void swapTeam(JsonObject json, Session session) {
+        Long id = json.get("id").getAsLong();
+        UserManager.swapTeam(id);
     }
 }

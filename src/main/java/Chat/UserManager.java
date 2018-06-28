@@ -23,6 +23,8 @@ public class UserManager {
     private final static Set<Player> players = new HashSet<>();
     private final static HashMap<Long, Set<Player>> onlinePlayers = new HashMap<>();
     private final static HashMap<Long, Session> pSession = new HashMap<>();
+    private final static Set<Player> teamCT = new HashSet<>();
+    private final static Set<Player> teamT = new HashSet<>();
 
     public static void joinChat(Player p, Session session) {
         if (!players.contains(p)) {
@@ -31,6 +33,12 @@ public class UserManager {
         }
         pSession.put(p.getId(), session);
         prepareOnlineList(p);
+        prepareTeamList(p);
+        
+        // Automatically join team
+        if (teamCT.size() < 5) chooseTeam(p, "team1");
+        else chooseTeam(p, "team2");
+        
         //System.out.println("Count = " + count);
     }
 
@@ -39,6 +47,11 @@ public class UserManager {
         //System.out.println("Count = " + count);
         Player p = getUserById(id);
         if (p != null) {
+            if (teamCT.contains(p)) {
+                teamCT.remove(p);
+            } else if (teamT.contains(p)) {
+                teamT.remove(p);
+            }
 
             players.remove(p);
             pSession.remove(p.getId());
@@ -63,24 +76,49 @@ public class UserManager {
     public static void sendMessage(long sender, String message) {
         JsonObject chatMessage = createMessage(sender, message);
 
-        sendToSession(pSession.get(sender), chatMessage);
-
+        //sendToSession(pSession.get(sender), chatMessage);
         //broadcast messages to others...
         for (Player p : onlinePlayers.get(sender)) {
-            if (pSession.containsKey(p.getId()) && p.getId() != sender) {
+            if (pSession.containsKey(p.getId())) {
                 sendToSession(pSession.get(p.getId()), chatMessage);
             }
         }
     }
 
-    private static JsonObject createMessage(long sender, String message) {
-        Player player = getUserById(sender);
-        JsonObject addMessage = new JsonObject();
-        addMessage.addProperty("action", Config.CHAT_MSG);
-        addMessage.addProperty("id", sender);
-        addMessage.addProperty("name", (player != null) ? player.getName() : "null");
-        addMessage.addProperty("message", message);
-        return addMessage;
+    public static void chooseTeam(Player player, String team) {
+        if (team.equals(Config.TEAM_CT)) {
+            teamCT.add(player);
+        } else if (team.equals(Config.TEAM_T)) {
+            teamT.add(player);
+        }
+
+        JsonObject teamMessage = createTeamMessage(player, team);
+        for (Player p : onlinePlayers.get(player.getId())) {
+            if (pSession.containsKey(p.getId())) {
+                sendToSession(pSession.get(p.getId()), teamMessage);
+            }
+        }
+    }
+
+    public static void swapTeam(long id) {
+        Player player = getUserById(id);
+        String team = "";
+        if (teamCT.contains(player)) {
+            teamCT.remove(player);
+            teamT.add(player);
+            team = "team2";
+        } else if (teamT.contains(player)) {
+            teamT.remove(player);
+            teamCT.add(player);
+            team = "team1";
+        }
+
+        JsonObject swapMessage = createSwapMessage(player, team);
+        for (Player p : onlinePlayers.get(id)) {
+            if (pSession.containsKey(p.getId())) {
+                sendToSession(pSession.get(p.getId()), swapMessage);
+            }
+        }
     }
 
     /* Stuffs */
@@ -94,11 +132,26 @@ public class UserManager {
                 sendToSession(pSession.get(p.getId()), addMessage);
             }
             if (p == player) {
-                addMessage = createMyJoinMessage(p); // create message of new player for me
+                addMessage = createJoinMessage(player, true); // create message of new player for me
             } else {
-                addMessage = createOtherJoinMessage(p); // create message of new player for old ones
+                addMessage = createJoinMessage(p, false); // create message of new player for old ones
             }
             sendToSession(pSession.get(player.getId()), addMessage);
+        }
+    }
+
+    private static void prepareTeamList(Player player) {
+        Set<Player> list = getOnlineList(); // Get current online list
+        JsonObject teamMessage;
+        for (Player i : list) {
+            if (teamCT.contains(i)) {
+                teamMessage = createTeamMessage(i, Config.TEAM_CT);
+            } else if (teamT.contains(i)) {
+                teamMessage = createTeamMessage(i, Config.TEAM_T);
+            } else {
+                teamMessage = createTeamMessage(i, Config.TEAM_SPEC);
+            }
+            sendToSession(pSession.get(player.getId()), teamMessage);
         }
     }
 
@@ -126,24 +179,27 @@ public class UserManager {
         }
     }
 
-    private static JsonObject createMyJoinMessage(Player p) {
-        JsonObject joinMessage = new JsonObject();
-        joinMessage.addProperty("action", Config.JOIN_CHAT);
-        joinMessage.addProperty("id", p.getId());
-        joinMessage.addProperty("name", p.getName());
-        joinMessage.addProperty("url", p.getUrl());
-        joinMessage.addProperty("img", p.getAvatar());
-        joinMessage.addProperty("message", "has joined");
-        return joinMessage;
+    // Create Message
+    private static JsonObject createMessage(long sender, String message) {
+        Player player = getUserById(sender);
+        JsonObject addMessage = new JsonObject();
+        addMessage.addProperty("action", Config.CHAT_MSG);
+        addMessage.addProperty("id", sender);
+        addMessage.addProperty("name", player.getName());
+        addMessage.addProperty("message", message);
+        return addMessage;
     }
 
-    private static JsonObject createOtherJoinMessage(Player p) {
+    private static JsonObject createJoinMessage(Player p, boolean same) {
         JsonObject joinMessage = new JsonObject();
         joinMessage.addProperty("action", Config.JOIN_CHAT);
         joinMessage.addProperty("id", p.getId());
         joinMessage.addProperty("name", p.getName());
         joinMessage.addProperty("url", p.getUrl());
         joinMessage.addProperty("img", p.getAvatar());
+        if (same) {
+            joinMessage.addProperty("message", "has joined");
+        }
         return joinMessage;
     }
 
@@ -156,5 +212,27 @@ public class UserManager {
         updateMessage.addProperty("img", p.getAvatar());
         updateMessage.addProperty("message", "has joined");
         return updateMessage;
+    }
+
+    private static JsonObject createTeamMessage(Player p, String team) {
+        JsonObject teamMessage = new JsonObject();
+        teamMessage.addProperty("action", Config.CHOOSE_TEAM);
+        teamMessage.addProperty("id", p.getId());
+        teamMessage.addProperty("name", p.getName());
+        teamMessage.addProperty("url", p.getUrl());
+        teamMessage.addProperty("img", p.getAvatar());
+        teamMessage.addProperty("team", team);
+        return teamMessage;
+    }
+
+    private static JsonObject createSwapMessage(Player p, String team) {
+        JsonObject swapMessage = new JsonObject();
+        swapMessage.addProperty("action", Config.SWAP_TEAM);
+        swapMessage.addProperty("id", p.getId());
+        swapMessage.addProperty("name", p.getName());
+        swapMessage.addProperty("url", p.getUrl());
+        swapMessage.addProperty("img", p.getAvatar());
+        swapMessage.addProperty("team", team);
+        return swapMessage;
     }
 }

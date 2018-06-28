@@ -44,7 +44,7 @@ public class ChatController extends HttpServlet {
         
         Player p = (Player) session.getAttribute("player");
         if (p == null) {
-            response.sendRedirect("info.jsp");
+            response.sendRedirect("users");
         } else {
             rd = sc.getRequestDispatcher("/chat.jsp");
             rd.forward(request, response);

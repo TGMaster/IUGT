@@ -20,6 +20,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
+
 /**
  *
  * @author TGMaster
@@ -48,32 +49,34 @@ public class UserController extends HttpServlet {
 
         OpenID op = new OpenID();
         String action = request.getParameter("action");
-
         if (action == null) {
+            rd = sc.getRequestDispatcher("/info.jsp");
+            rd.forward(request, response);
+        } else if (action.equals("openid")) {
             // Create object
             Player player = new Player();
             String identity = op.authentication(request);
             identity = identity.replace("https://steamcommunity.com/openid/id/", "");
-            
+
             // Get json
             String sURL = Config.LINK_API + Config.STEAM_API + "&steamids=" + identity;
             JsonObject json = Json.readJsonFromUrl(sURL);
-            
+
             // Set attributes
             player.setId(Long.parseLong(identity));
             player.setName(json.get("personaname").getAsString());
             player.setUrl(json.get("profileurl").getAsString());
-            player.setAvatar(json.get("avatarfull").getAsString());
-            
+            player.setAvatar(json.get("avatar").getAsString());
+
             session.setAttribute("player", player);
-            response.sendRedirect("info.jsp");
-            
+            response.sendRedirect("users");
+
         } else if (action.equals("login")) {
             String url = op.login(request);
             response.sendRedirect(url);
         } else if (action.equals("logout")) {
             request.getSession().removeAttribute("player");
-            response.sendRedirect("info.jsp");
+            response.sendRedirect("users");
         }
     }
 
