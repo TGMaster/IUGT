@@ -155,7 +155,7 @@ public class UserManager {
         }
     }
 
-    private static Player getUserById(long id) {
+    public static Player getUserById(long id) {
         for (Player p : players) {
             if (p.getId() == id) {
                 return p;
@@ -216,7 +216,7 @@ public class UserManager {
 
     private static JsonObject createTeamMessage(Player p, String team) {
         JsonObject teamMessage = new JsonObject();
-        teamMessage.addProperty("action", Config.CHOOSE_TEAM);
+        teamMessage.addProperty("action", Config.JOIN_TEAM);
         teamMessage.addProperty("id", p.getId());
         teamMessage.addProperty("name", p.getName());
         teamMessage.addProperty("url", p.getUrl());

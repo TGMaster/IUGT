@@ -42,17 +42,21 @@
 
         <textarea id="textAreaMessage" rows="10" cols="50"></textarea>
 
-<!--        <div>
-            <h4>Online list:</h4>
-            <table>
-                <tr id="myRow"></tr>
-            </table>
-        </div>-->
+        <!--        <div>
+                    <h4>Online list:</h4>
+                    <table>
+                        <tr id="myRow"></tr>
+                    </table>
+                </div>-->
 
         <div>
             <button id="switchBtn" onclick="swapTeam()">Switch</button>
-            <div>Team 1 : <span id="TeamCT"></span></div>
-            <div>Team 2 : <span id="TeamT"></span></div>
+            <form action="match" method="POST">
+                <div>Team 1 : <span id="TeamCT"></span></div>
+                <div>Team 2 : <span id="TeamT"></span></div>
+                <input type="text" name="numMaps">
+                <input type="submit" value="Start" name="action">
+            </form>
         </div>
 
         <a href="users" class="button">Back to homepage</a>

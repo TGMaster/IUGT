@@ -10,7 +10,7 @@ var actions = {
     LEAVE_CHAT: "leave",
     CHAT_MSG: "chat",
     UPDATE_LIST: "update",
-    CHOOSE_TEAM: "team",
+    JOIN_TEAM: "team",
     SWAP_TEAM: "swap"
 };
 var by = {
@@ -44,7 +44,6 @@ function onError(event) {/*Error occured while communicating server...*/
 function onMessage(event) {
     var response = JSON.parse(event.data);
     if (response.action === actions.JOIN_CHAT) {
-//        updateUserList(response);
         if (response.message !== undefined)
             updateChatBox(response.name + " " + response.message);
     }
@@ -52,11 +51,6 @@ function onMessage(event) {
     if (response.action === actions.LEAVE_CHAT) {
         if (parseInt(response.id) === userId)
             return;
-
-//        var onlineRow = getElement("myRow", by.id);
-//        var find = findCell(response.id);
-//        if (find !== null)
-//            onlineRow.deleteCell(find);
 
         var team1 = getElement("TeamCT", by.id);
         var team2 = getElement("TeamT", by.id);
@@ -72,7 +66,6 @@ function onMessage(event) {
     if (response.action === actions.UPDATE_LIST) {
         if (parseInt(response.id) === userId)
             return;
-//        updateUserList(response);
         updateChatBox(response.name + " " + response.message);
     }
 
@@ -82,10 +75,10 @@ function onMessage(event) {
         updateChatBox(response.name + ": " + response.message);
     }
 
-    if (response.action === actions.CHOOSE_TEAM) {
+    if (response.action === actions.JOIN_TEAM) {
         updateTeamList(response);
     }
-    
+
     if (response.action === actions.SWAP_TEAM) {
         changeTeam(response);
     }
@@ -220,28 +213,26 @@ function imageUrl(user) {
     var u_img = document.createElement("img");
     u_img.src = user.img;
     u.appendChild(u_img);
+
+    var u_input = document.createElement("input");
+    u_input.type = "text";
+    if (user.team === "team1") u_input.name = "Team1";
+    if (user.team === "team2") u_input.name = "Team2";
+    u_input.setAttribute("value", user.id);
+    u_input.setAttribute("hidden","");
+    u.appendChild(u_input);
+    
+    var u_input = document.createElement("input");
+    u_input.type = "text";
+    if (user.team === "team1") u_input.name = "Team1Name";
+    if (user.team === "team2") u_input.name = "Team2Name";
+    u_input.setAttribute("value", user.name);
+    u_input.setAttribute("hidden","");
+    u.appendChild(u_input);
+
     return u;
 }
 
-/*
-function updateUserList(user) {
-    var row = getElement("myRow", by.id);
-    var cell = row.insertCell(row.cells.length);
-    var u = imageUrl(user);
-    cell.appendChild(u);
-}
-
-function findCell(id) {
-    var row = getElement("myRow", by.id);
-    for (var i = 0; i < row.cells.length; i++) {
-        var cell = row.cells[i].getElementsByTagName('*');
-        if (cell[0].id == id) {
-            return i;
-        }
-    }
-    return null;
-}
-*/
 function updateTeamList(user) {
     var team1 = getElement("TeamCT", by.id);
     var team2 = getElement("TeamT", by.id);
@@ -258,7 +249,7 @@ function changeTeam(user) {
     var team1 = getElement("TeamCT", by.id);
     var team2 = getElement("TeamT", by.id);
     var u = imageUrl(user);
-        if (user.team === "team1") {
+    if (user.team === "team1") {
         team2.removeChild(getElement(user.id, by.id));
         team1.appendChild(u);
     } else if (user.team === "team2") {

@@ -5,9 +5,14 @@
  */
 package Controller;
 
+import Config.MatchConfig;
+import Config.TeamConfig;
 import POJO.Player;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -44,17 +49,45 @@ public class MatchController extends HttpServlet {
 
         Player p = (Player) session.getAttribute("player");
         if (p == null) {
-            response.sendRedirect("info.jsp");
+            response.sendRedirect("users");
         } else {
-            String team = request.getParameter("team");
-            if (team == null) {
-            } else if (team.equals("1")) {
-                request.setAttribute("team", "Team1");
-            } else if (team.equals("2")) {
-                request.setAttribute("team", "Team2");
+
+            String action = request.getParameter("action");
+            if (action == null) {
+                response.sendRedirect("users");
+            } else if (action.equals("Start")) {
+                request.setCharacterEncoding("UTF-8");
+                String[] team1 = request.getParameterValues("Team1");
+                String[] team2 = request.getParameterValues("Team2");
+                String[] name_team1 = request.getParameterValues("Team1Name");
+                String[] name_team2 = request.getParameterValues("Team2Name");
+                int maps = Integer.parseInt(request.getParameter("numMaps"));
+
+                TeamConfig t1 = new TeamConfig();
+                t1.setPlayers(team1);
+                String name = new String(name_team1[0].getBytes("Shift_JIS"));
+                t1.setName("team_" + name);
+
+                TeamConfig t2 = new TeamConfig();
+                t2.setPlayers(team2);
+                name = new String(name_team2[0].getBytes("Shift_JIS"));
+                t2.setName("team_" + name);
+
+                MatchConfig m = new MatchConfig();
+
+                Gson gson = new Gson();
+                String jout = gson.toJson(m.SetConfig(maps, t1, t2));
+                
+//                response.setContentType("application/json");
+//                try (PrintWriter out = response.getWriter()) {
+//                    /* TODO output your page here. You may use following sample code. */
+//                    out.println(jout);
+//                }
+                request.setAttribute("json", jout);
+                rd = sc.getRequestDispatcher("/json.jsp");
+                rd.forward(request, response);
             }
-            rd = sc.getRequestDispatcher("/game.jsp");
-            rd.forward(request, response);
+
         }
     }
 
