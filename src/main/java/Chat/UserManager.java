@@ -184,7 +184,7 @@ public class UserManager {
         Player player = getUserById(sender);
         JsonObject addMessage = new JsonObject();
         addMessage.addProperty("action", Config.CHAT_MSG);
-        addMessage.addProperty("id", sender);
+        addMessage.addProperty("id", String.valueOf(sender));
         addMessage.addProperty("name", player.getName());
         addMessage.addProperty("message", message);
         return addMessage;
@@ -193,7 +193,7 @@ public class UserManager {
     private static JsonObject createJoinMessage(Player p, boolean same) {
         JsonObject joinMessage = new JsonObject();
         joinMessage.addProperty("action", Config.JOIN_CHAT);
-        joinMessage.addProperty("id", p.getId());
+        joinMessage.addProperty("id", String.valueOf(p.getId()));
         joinMessage.addProperty("name", p.getName());
         joinMessage.addProperty("url", p.getUrl());
         joinMessage.addProperty("img", p.getAvatar());
@@ -206,7 +206,7 @@ public class UserManager {
     private static JsonObject createUpdateMessage(Player p) {
         JsonObject updateMessage = new JsonObject();
         updateMessage.addProperty("action", Config.UPDATE_LIST);
-        updateMessage.addProperty("id", p.getId());
+        updateMessage.addProperty("id", String.valueOf(p.getId()));
         updateMessage.addProperty("name", p.getName());
         updateMessage.addProperty("url", p.getUrl());
         updateMessage.addProperty("img", p.getAvatar());
@@ -217,7 +217,7 @@ public class UserManager {
     private static JsonObject createTeamMessage(Player p, String team) {
         JsonObject teamMessage = new JsonObject();
         teamMessage.addProperty("action", Config.JOIN_TEAM);
-        teamMessage.addProperty("id", p.getId());
+        teamMessage.addProperty("id", String.valueOf(p.getId()));
         teamMessage.addProperty("name", p.getName());
         teamMessage.addProperty("url", p.getUrl());
         teamMessage.addProperty("img", p.getAvatar());
@@ -228,7 +228,7 @@ public class UserManager {
     private static JsonObject createSwapMessage(Player p, String team) {
         JsonObject swapMessage = new JsonObject();
         swapMessage.addProperty("action", Config.SWAP_TEAM);
-        swapMessage.addProperty("id", p.getId());
+        swapMessage.addProperty("id", String.valueOf(p.getId()));
         swapMessage.addProperty("name", p.getName());
         swapMessage.addProperty("url", p.getUrl());
         swapMessage.addProperty("img", p.getAvatar());

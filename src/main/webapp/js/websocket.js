@@ -49,7 +49,7 @@ function onMessage(event) {
     }
     //If new user left chat room, notify others and update users list
     if (response.action === actions.LEAVE_CHAT) {
-        if (parseInt(response.id) === userId)
+        if (response.id === userId)
             return;
 
         var team1 = getElement("TeamCT", by.id);
@@ -64,7 +64,7 @@ function onMessage(event) {
     }
 
     if (response.action === actions.UPDATE_LIST) {
-        if (parseInt(response.id) === userId)
+        if (response.id === userId)
             return;
         updateChatBox(response.name + " " + response.message);
     }

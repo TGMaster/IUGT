@@ -22,4 +22,5 @@ public class Config {
     public static final String TEAM_CT = "team1";
     public static final String TEAM_T = "team2";
     public static final String TEAM_SPEC = "team3";
+    public static final String CONNECT_URL = "steam://connect/csgo.iugt.co:27015";
 }

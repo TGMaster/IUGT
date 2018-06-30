@@ -15,7 +15,7 @@
         <%Player p = (Player) session.getAttribute("player");%>
         <script type="text/javascript">
             var socketUrl = "ws://localhost:8080/chatServer";
-            var userId = <%=p.getId()%>;
+            var userId = "<%=p.getId()%>";
             var userName = "<%=p.getName()%>";
             var userImg = "<%=p.getAvatar()%>";
             var userUrl = "<%=p.getUrl()%>";
@@ -59,8 +59,17 @@
             </form>
         </div>
 
-        <a href="users" class="button">Back to homepage</a>
-
+        <%
+            String json = (String) request.getAttribute("json");
+            if (json != null) {
+        %>
+        <a href="<%=Config.CONNECT_URL%>">CONNECT TO SERVER</a>
+        <%
+            }
+        %>
+        <div>
+            <a href="users" class="button">Back to homepage</a>
+        </div>
         <script src="js/websocket.js"></script>
         <script type="text/javascript">start();</script>
     </body>
