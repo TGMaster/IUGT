@@ -24,7 +24,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = "/chatServer")
+@ServerEndpoint(value = "/game")
 public class Server {
 
     private String username;
@@ -50,6 +50,9 @@ public class Server {
         }
         if (Config.SWAP_TEAM.equals(json.get("action").getAsString())) {
             swapTeam(json, session);
+        }
+        if (Config.START_GAME.equals(json.get("action").getAsString())) {
+            startGame(json, session);
         }
         /*
         for (Session s : users) {
@@ -87,9 +90,14 @@ public class Server {
         String msg = json.get("message").getAsString();
         UserManager.sendMessage(id, msg);
     }
-    
+
     private void swapTeam(JsonObject json, Session session) {
         Long id = json.get("id").getAsLong();
         UserManager.swapTeam(id);
+    }
+
+    private void startGame(JsonObject json, Session session) {
+        Long id = json.get("id").getAsLong();
+        UserManager.startGame(id);
     }
 }

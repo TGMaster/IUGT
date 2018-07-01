@@ -11,7 +11,9 @@ var actions = {
     CHAT_MSG: "chat",
     UPDATE_LIST: "update",
     JOIN_TEAM: "team",
-    SWAP_TEAM: "swap"
+    SWAP_TEAM: "swap",
+    START_GAME: "start",
+    REMOVE_MATCH: "remove"
 };
 var by = {
     id: "Id",
@@ -46,6 +48,11 @@ function onMessage(event) {
     if (response.action === actions.JOIN_CHAT) {
         if (response.message !== undefined)
             updateChatBox(response.name + " " + response.message);
+        var owner = getElement("onlyOwner", by.id);
+        if (response.owner === false) {
+            owner.style.display = 'none';
+            ;
+        }
     }
     //If new user left chat room, notify others and update users list
     if (response.action === actions.LEAVE_CHAT) {
@@ -55,10 +62,12 @@ function onMessage(event) {
         var team1 = getElement("TeamCT", by.id);
         var team2 = getElement("TeamT", by.id);
         var u = getElement(response.id, by.id);
-        if (team1.contains(u))
+
+        if (team1.contains(u)) {
             team1.removeChild(u);
-        if (team2.contains(u))
+        } else if (team2.contains(u)) {
             team2.removeChild(u);
+        }
 
         updateChatBox(response.name + " " + response.message);
     }
@@ -81,6 +90,17 @@ function onMessage(event) {
 
     if (response.action === actions.SWAP_TEAM) {
         changeTeam(response);
+    }
+
+    if (response.action === actions.START_GAME) {
+        getServer(response);
+    }
+
+    if (response.action === actions.REMOVE_MATCH) {
+        if (response.id !== userId) {
+            alert(response.message);
+            window.location.href = 'users';
+        }
     }
 }
 function updateChatBox(message) {
@@ -126,6 +146,14 @@ function leaveChat() {
 function swapTeam() {
     var request = {
         action: actions.SWAP_TEAM,
+        id: userId
+    };
+    sendRequest(request);
+}
+
+function startGame() {
+    var request = {
+        action: actions.START_GAME,
         id: userId
     };
     sendRequest(request);
@@ -216,18 +244,22 @@ function imageUrl(user) {
 
     var u_input = document.createElement("input");
     u_input.type = "text";
-    if (user.team === "team1") u_input.name = "Team1";
-    if (user.team === "team2") u_input.name = "Team2";
+    if (user.team === "team1")
+        u_input.name = "Team1";
+    if (user.team === "team2")
+        u_input.name = "Team2";
     u_input.setAttribute("value", user.id);
-    u_input.setAttribute("hidden","");
+    u_input.setAttribute("hidden", "");
     u.appendChild(u_input);
-    
+
     var u_input = document.createElement("input");
     u_input.type = "text";
-    if (user.team === "team1") u_input.name = "Team1Name";
-    if (user.team === "team2") u_input.name = "Team2Name";
+    if (user.team === "team1")
+        u_input.name = "Team1Name";
+    if (user.team === "team2")
+        u_input.name = "Team2Name";
     u_input.setAttribute("value", user.name);
-    u_input.setAttribute("hidden","");
+    u_input.setAttribute("hidden", "");
     u.appendChild(u_input);
 
     return u;
@@ -257,3 +289,67 @@ function changeTeam(user) {
         team2.appendChild(u);
     }
 }
+
+function getServer(data) {
+    var server = getElement("server", by.id);
+    server.innerHTML = data.msg;
+    var cmd = getElement("server_cmd", by.id);
+    var input = document.createElement("input");
+    input.setAttribute("value", data.ip);
+    input.setAttribute("readonly", "readonly");
+    cmd.appendChild(input);
+}
+
+$(document).ready(function () {
+    var x_timer;
+    $('#teamList').submit(function (e) {
+        e.preventDefault();
+        // Get id
+        var team1 = $("input[name='Team1']")
+                .map(function () {
+                    return $(this).val();
+                }).get();
+        var team2 = $("input[name='Team2']")
+                .map(function () {
+                    return $(this).val();
+                }).get();
+
+        // Get name
+        var team1_name = $("input[name='Team1Name']")
+                .map(function () {
+                    return $(this).val();
+                }).get();
+        var team2_name = $("input[name='Team2Name']")
+                .map(function () {
+                    return $(this).val();
+                }).get();
+        team1_name = team1_name[0];
+        team2_name = team2_name[0];
+
+        // Get BO
+        var num = $('#numMaps').val();
+
+        if (team1.length > 5 && team2.length > 5) {
+            alert("Not enought player");
+        } else {
+            clearTimeout(x_timer);
+            x_timer = setTimeout(function () {
+                $.ajax({
+                    url: 'match',
+                    data: {
+                        action: 'start',
+                        Team1: team1,
+                        Team2: team2,
+                        Team1Name: team1_name,
+                        Team2Name: team2_name,
+                        numMaps: num
+                    },
+                    success: function (responseText) {
+                        console.log(responseText);
+                        startGame();
+                    }
+                });
+            }, 1000);
+        }
+    });
+});

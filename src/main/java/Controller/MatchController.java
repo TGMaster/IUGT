@@ -5,13 +5,13 @@
  */
 package Controller;
 
-import Config.MatchConfig;
-import Config.TeamConfig;
+import Config.*;
 import POJO.Player;
 import Rcon.Rcon;
 import Util.*;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.io.*;
 
 import javax.servlet.RequestDispatcher;
@@ -27,7 +27,26 @@ import javax.servlet.http.HttpSession;
  * @author TGMaster
  */
 public class MatchController extends HttpServlet {
+    
+    public static String start_msg;
+    public static String start_ip;
 
+    public static String getStart_msg() {
+        return start_msg;
+    }
+
+    public static void setStart_msg(String start_msg) {
+        MatchController.start_msg = start_msg;
+    }
+
+    public static String getStart_ip() {
+        return start_ip;
+    }
+
+    public static void setStart_ip(String start_ip) {
+        MatchController.start_ip = start_ip;
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,24 +70,24 @@ public class MatchController extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) {
             response.sendRedirect("users");
-        } else if (action.equals("Start")) {
+        } else if (action.equals("start")) {
             Player p = (Player) session.getAttribute("player");
             if (p == null) {
                 response.sendRedirect("users");
             } else {
-                String[] team1 = request.getParameterValues("Team1");
-                String[] team2 = request.getParameterValues("Team2");
-                String[] name_team1 = request.getParameterValues("Team1Name");
-                String[] name_team2 = request.getParameterValues("Team2Name");
+                String[] team1 = request.getParameterValues("Team1[]");
+                String[] team2 = request.getParameterValues("Team2[]");
+                String name_team1 = request.getParameter("Team1Name");
+                String name_team2 = request.getParameter("Team2Name");
                 int maps = Integer.parseInt(request.getParameter("numMaps"));
 
                 TeamConfig t1 = new TeamConfig();
                 t1.setPlayers(team1);
-                t1.setName("team_" + name_team1[0]);
+                t1.setName("team_" + name_team1);
 
                 TeamConfig t2 = new TeamConfig();
                 t2.setPlayers(team2);
-                t2.setName("team_" + name_team2[0]);
+                t2.setName("team_" + name_team2);
 
                 MatchConfig m = new MatchConfig();
 
@@ -89,13 +108,22 @@ public class MatchController extends HttpServlet {
                         out.close();
                     }
                 }
-                
+
                 // Send rcon to server
 //                try {
-//                    Rcon rcon = new Rcon("csgo.iugt.co", 27015, "iugt1234".getBytes());
-//                    rcon.command("get5_loadmatch_url \"http://116.102.144.83:8080/match?action=file&name=" + name + "\"");
+//                    Rcon rcon = new Rcon(Config.SERVER_IP, 27015, "iugt1234".getBytes());
+//                    String cmd = "get5_loadmatch_url \"http://" + Config.HOST_URL + "/match?action=file&name=" + name + "\"";
+//                    System.out.println(cmd);
+//                    rcon.command(cmd);
 //                } catch (AuthenticationException ex) {
 //                }
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                JsonObject json = new JsonObject();
+                MatchController.setStart_msg("GO TO SERVER");
+                MatchController.setStart_ip("connect " + Config.SERVER_IP);
+                response.setContentType("text/html");
+                response.getWriter().write("Success");
             }
 
         } else if (action.equals("file")) {
@@ -115,10 +143,7 @@ public class MatchController extends HttpServlet {
             }
 
             response.setContentType("application/json;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
-                out.println(jout);
-            }
+            response.getWriter().print(jout);
         }
 
     }

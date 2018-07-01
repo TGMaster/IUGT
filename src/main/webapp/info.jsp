@@ -36,7 +36,7 @@
         <p>Name: <%=player.getName()%></p>
         <p>URL: <a href="<%=player.getUrl()%>"><%=player.getUrl()%></a></p>
         <p><img src="<%=player.getAvatar()%>"></p>
-        <p><a href="chat" class="button">Chat Room</a></p>
+        <p><a href="scrim" class="button">Chat Room</a></p>
         <p><a href="match" class="button">Match Room</a></p>
         <p><a href="users?action=logout" class="button">Logout</a></p>
         <% } else {%>

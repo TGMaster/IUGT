@@ -46,7 +46,7 @@ public class ChatController extends HttpServlet {
         if (p == null) {
             response.sendRedirect("users");
         } else {
-            rd = sc.getRequestDispatcher("/chat.jsp");
+            rd = sc.getRequestDispatcher("/match.jsp");
             rd.forward(request, response);
         }
     }

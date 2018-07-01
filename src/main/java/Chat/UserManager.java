@@ -6,6 +6,7 @@
 package Chat;
 
 import Config.Config;
+import Controller.MatchController;
 import POJO.Player;
 
 import com.google.gson.JsonObject;
@@ -25,6 +26,7 @@ public class UserManager {
     private final static HashMap<Long, Session> pSession = new HashMap<>();
     private final static Set<Player> teamCT = new HashSet<>();
     private final static Set<Player> teamT = new HashSet<>();
+    private final static HashMap<Long, Boolean> isOwner = new HashMap<>();
 
     public static void joinChat(Player p, Session session) {
         if (!players.contains(p)) {
@@ -32,19 +34,28 @@ public class UserManager {
             count++;
         }
         pSession.put(p.getId(), session);
+        // Check owner
+        if (count == 1) {
+            isOwner.put(p.getId(), true);
+        } else {
+            isOwner.put(p.getId(), false);
+        }
         prepareOnlineList(p);
         prepareTeamList(p);
-        
+
         // Automatically join team
-        if (teamCT.size() < 5) chooseTeam(p, "team1");
-        else chooseTeam(p, "team2");
-        
+        if (teamCT.size() < 5) {
+            chooseTeam(p, "team1");
+        } else {
+            chooseTeam(p, "team2");
+        }
+
         //System.out.println("Count = " + count);
     }
 
     public static void leaveChat(long id, Session session) {
         count--;
-        //System.out.println("Count = " + count);
+
         Player p = getUserById(id);
         if (p != null) {
             if (teamCT.contains(p)) {
@@ -56,16 +67,23 @@ public class UserManager {
             players.remove(p);
             pSession.remove(p.getId());
 
+            // Check if it is owner
             JsonObject removeMsg = new JsonObject();
-            removeMsg.addProperty("action", Config.LEAVE_CHAT);
-            removeMsg.addProperty("id", id);
-            removeMsg.addProperty("name", p.getName());
-            removeMsg.addProperty("message", "has left");
+            if (isOwner.get(id) == true) {
+                removeMsg.addProperty("action", Config.REMOVE_MATCH);
+                removeMsg.addProperty("id", String.valueOf(id));
+                removeMsg.addProperty("message", "The owner has left, the match will be canceled.");
+            } else {
+                removeMsg.addProperty("action", Config.LEAVE_CHAT);
+                removeMsg.addProperty("id", String.valueOf(id));
+                removeMsg.addProperty("name", p.getName());
+                removeMsg.addProperty("message", "has left");
+            }
 
-            //todo-task
-            //notify server if someone offline
+            isOwner.remove(p.getId());
+
+            //notify server if someone left
             for (Player player : onlinePlayers.get(id)) {
-                Set<Player> list = getOnlineList();
                 if (pSession.containsKey(player.getId())) {
                     sendToSession(pSession.get(player.getId()), removeMsg);
                 }
@@ -121,6 +139,20 @@ public class UserManager {
         }
     }
 
+    public static void startGame(long id) {
+//        if (teamCT.size() == 5 && teamT.size() == 5) {
+        JsonObject startMsg = new JsonObject();
+        startMsg.addProperty("action", Config.START_GAME);
+        startMsg.addProperty("msg", MatchController.getStart_msg());
+        startMsg.addProperty("ip", MatchController.getStart_ip());
+        for (Player player : onlinePlayers.get(id)) {
+            if (pSession.containsKey(player.getId())) {
+                sendToSession(pSession.get(player.getId()), startMsg);
+            }
+        }
+//        }
+    }
+
     /* Stuffs */
     private static void prepareOnlineList(Player player) {
         Set<Player> list = getOnlineList(); // Get current online list
@@ -132,7 +164,7 @@ public class UserManager {
                 sendToSession(pSession.get(p.getId()), addMessage);
             }
             if (p == player) {
-                addMessage = createJoinMessage(player, true); // create message of new player for me
+                addMessage = createJoinMessage(p, true); // create message of new player for me
             } else {
                 addMessage = createJoinMessage(p, false); // create message of new player for old ones
             }
@@ -198,6 +230,7 @@ public class UserManager {
         joinMessage.addProperty("url", p.getUrl());
         joinMessage.addProperty("img", p.getAvatar());
         if (same) {
+            joinMessage.addProperty("owner", isOwner.get(p.getId()));
             joinMessage.addProperty("message", "has joined");
         }
         return joinMessage;

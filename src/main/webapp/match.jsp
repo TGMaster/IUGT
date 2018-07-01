@@ -14,7 +14,7 @@
 
         <%Player p = (Player) session.getAttribute("player");%>
         <script type="text/javascript">
-            var socketUrl = "ws://localhost:8080/chatServer";
+            var socketUrl = "ws://localhost:8080/game";
             var userId = "<%=p.getId()%>";
             var userName = "<%=p.getName()%>";
             var userImg = "<%=p.getAvatar()%>";
@@ -51,26 +51,32 @@
 
         <div>
             <button id="switchBtn" onclick="swapTeam()">Switch</button>
-            <form action="match" method="POST">
+            <form id="teamList">
                 <div>Team 1 : <span id="TeamCT"></span></div>
                 <div>Team 2 : <span id="TeamT"></span></div>
-                <input type="text" name="numMaps">
-                <input type="submit" value="Start" name="action">
+                <div id="onlyOwner">
+                    Match type:
+                    <select id="numMaps">
+                        <option value="1" selected>Bo1</option>
+                        <option value="2">Bo2</option>
+                        <option value="3">Bo3</option>
+                        <option value="5">Bo5</option>
+                    </select>
+                    <button type="submit">Start</button>
+                </div>
             </form>
         </div>
 
-        <%
-            String json = (String) request.getAttribute("json");
-            if (json != null) {
-        %>
-        <a href="<%=Config.CONNECT_URL%>">CONNECT TO SERVER</a>
-        <%
-            }
-        %>
+        <div>
+            <a href="<%=Config.CONNECT_URL%>"><span id="server"></span></a>
+            <div id="server_cmd"></div>
+        </div>
+
         <div>
             <a href="users" class="button">Back to homepage</a>
         </div>
-        <script src="js/websocket.js"></script>
+        <script src="js/jquery/jquery-3.3.1.min.js"></script>
+        <script src="js/match.js"></script>
         <script type="text/javascript">start();</script>
     </body>
 </html>
