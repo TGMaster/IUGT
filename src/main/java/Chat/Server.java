@@ -27,12 +27,20 @@ import javax.websocket.server.ServerEndpoint;
 @ServerEndpoint(value = "/game")
 public class Server {
 
-    private String username;
+    private static Integer numPlayers = 0;
     //static Set<Session> users = Collections.synchronizedSet(new HashSet<Session>());
+
+    public static Integer getNumPlayers() {
+        return numPlayers;
+    }
+
+    public static void setNumPlayers(Integer numPlayers) {
+        Server.numPlayers = numPlayers;
+    }
 
     @OnOpen
     public void handleOpen(Session session) {
-
+        numPlayers++;
     }
 
     @OnMessage
@@ -63,7 +71,7 @@ public class Server {
 
     @OnClose
     public void handleClose(Session session) {
-        //users.remove(session);
+        numPlayers--;
     }
 
     @OnError

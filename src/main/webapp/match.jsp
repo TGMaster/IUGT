@@ -14,7 +14,7 @@
 
         <%Player p = (Player) session.getAttribute("player");%>
         <script type="text/javascript">
-            var socketUrl = "ws://116.102.144.83:8080/game";
+            var socketUrl = "ws://localhost:8080/game";
             var userId = "<%=p.getId()%>";
             var userName = "<%=p.getName()%>";
             var userImg = "<%=p.getAvatar()%>";
@@ -55,14 +55,6 @@
                 <div>Team 1 : <span id="TeamCT"></span></div>
                 <div>Team 2 : <span id="TeamT"></span></div>
                 <div id="onlyOwner">
-                    Match type:
-                    <select id="numMaps">
-                        <option value="1" selected>Bo1</option>
-                        <option value="2">Bo2</option>
-                        <option value="3">Bo3</option>
-                        <option value="5">Bo5</option>
-                    </select>
-                    <button type="submit">Start</button>
                 </div>
             </form>
         </div>

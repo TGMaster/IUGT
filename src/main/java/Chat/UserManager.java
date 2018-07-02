@@ -20,7 +20,6 @@ import javax.websocket.Session;
  */
 public class UserManager {
 
-    private static int count = 0;
     private final static Set<Player> players = new HashSet<>();
     private final static HashMap<Long, Set<Player>> onlinePlayers = new HashMap<>();
     private final static HashMap<Long, Session> pSession = new HashMap<>();
@@ -31,10 +30,11 @@ public class UserManager {
     public static void joinChat(Player p, Session session) {
         if (!players.contains(p)) {
             players.add(p);
-            count++;
         }
         pSession.put(p.getId(), session);
+        
         // Check owner
+        int count = Server.getNumPlayers();
         if (count == 1) {
             isOwner.put(p.getId(), true);
         } else {
@@ -54,7 +54,6 @@ public class UserManager {
     }
 
     public static void leaveChat(long id, Session session) {
-        count--;
 
         Player p = getUserById(id);
         if (p != null) {

@@ -49,9 +49,26 @@ function onMessage(event) {
         if (response.message !== undefined)
             updateChatBox(response.name + " " + response.message);
         var owner = getElement("onlyOwner", by.id);
-        if (response.owner === false) {
-            owner.style.display = 'none';
-            ;
+        if (response.owner === true) {
+            var select = document.createElement('select');
+            var Bo = {
+                1: 'Bo1',
+                2: 'Bo2',
+                3: 'Bo3',
+                5: 'Bo5'
+            };
+            for (var index in Bo) {
+                select.options[select.options.length] = new Option(Bo[index], index);
+            }
+            owner.appendChild(select);
+
+            var button = document.createElement('button');
+            button.setAttribute('type', 'submit');
+            button.id = 'numMaps';
+            var t = document.createTextNode("Start");
+            button.appendChild(t);
+
+            owner.appendChild(button);
         }
     }
     //If new user left chat room, notify others and update users list
@@ -80,7 +97,6 @@ function onMessage(event) {
 
     // Send message
     if (response.action === actions.CHAT_MSG) {
-        var senderName = response.name;
         updateChatBox(response.name + ": " + response.message);
     }
 
