@@ -110,13 +110,12 @@ public class MatchController extends HttpServlet {
                 }
 
                 // Send rcon to server
-//                try {
-//                    Rcon rcon = new Rcon(Config.SERVER_IP, 27015, "iugt1234".getBytes());
-//                    String cmd = "get5_loadmatch_url \"http://" + Config.HOST_URL + "/match?action=file&name=" + name + "\"";
-//                    System.out.println(cmd);
-//                    rcon.command(cmd);
-//                } catch (AuthenticationException ex) {
-//                }
+                try {
+                    Rcon rcon = new Rcon(Config.SERVER_IP, 27015, "iugt1234".getBytes());
+                    String cmd = "get5_loadmatch_url \"http://" + Config.HOST_URL + "/match?action=file&name=" + name + "\"";
+                    rcon.command(cmd);
+                } catch (AuthenticationException ex) {
+                }
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 JsonObject json = new JsonObject();

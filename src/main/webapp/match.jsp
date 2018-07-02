@@ -14,7 +14,7 @@
 
         <%Player p = (Player) session.getAttribute("player");%>
         <script type="text/javascript">
-            var socketUrl = "ws://localhost:8080/game";
+            var socketUrl = "ws://116.102.144.83:8080/game";
             var userId = "<%=p.getId()%>";
             var userName = "<%=p.getName()%>";
             var userImg = "<%=p.getAvatar()%>";
