@@ -35,26 +35,127 @@
 
     </head>
     <body onbeforeunload="return closeSocket()">
-        <h2>Chat Room</h2>
-
-        <input id="textMessage" type="text" />
-        <input onclick="sendMessage()" value="Send Message" type="button" id="sendMsg" /> <br/><br/>
-
-        <textarea id="textAreaMessage" rows="10" cols="50"></textarea>
-
-        <!--        <div>
-                    <h4>Online list:</h4>
-                    <table>
-                        <tr id="myRow"></tr>
-                    </table>
-                </div>-->
-
-        <div>
+        <div class="row" id="upper-container">
             <button id="switchBtn" onclick="swapTeam()">Switch</button>
+
+            <!--Team List-->
             <form id="teamList">
-                <div>Team 1 : <span id="TeamCT"></span></div>
-                <div>Team 2 : <span id="TeamT"></span></div>
-                <div id="onlyOwner">
+                <div class="teamview">
+                    <div class="col-sm-1"></div>
+                    <!--CT Team-->
+                    <div class="col-sm-3 team-info">
+                        <div class="team-tag"> Team 1 </div>
+                        <div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-left">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-left">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-left">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-left">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-left">
+                                    <img src="https://scontent.fsgn5-1.fna.fb.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix"></div>
+                            </div>
+                        </div>
+                        <span id="TeamCT"></span>
+                    </div>
+                    <!--End of CT Team-->
+
+                    <!--Match Info-->
+                    <div class="col-sm-4 match-info">
+                        <div id="onlyOwner"></div>
+
+                        <div class="server-info">
+                            <img src="images/vs.jpg" width="64" height="64" alt="VS"/>
+                            <div class="server-connect">
+                                <input type="button" class="btn-danger btn-lg" value="Connect To Server"/> <br/>
+                                <div class="server-ip-wrapper">
+                                    <input type="text" class="form-control" value="http://localhost:8080" id="copyTarget" readonly/>
+                                    <div class="icon-wrapper">
+                                        <a id="copyButton"><span class="glyphicon glyphicon-paperclip copy-icon"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of Match Info-->
+
+                    <!--T Team-->
+                    <div class="col-sm-3 team-info">
+                        <div class="team-tag"> Team 2 </div>
+                        <div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-right">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-right">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-right">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-right">
+                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix">Spider Man</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="player-slot">
+                                <span class="player-avatar pull-right">
+                                    <img src=""
+                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
+                                </span>
+                                <div class="player-name clearfix"></div>
+                            </div>
+                        </div>
+                        <span id="TeamT"></span>
+                    </div>
+                    <!--End of T Team-->
                 </div>
             </form>
         </div>
@@ -64,11 +165,32 @@
             <div id="server_cmd"></div>
         </div>
 
+        <!--Chat Room-->
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="form-group col-sm-4">
+                <textarea class="form-control rounded-0" id="textAreaMessage" rows="15" readonly></textarea>
+                <div class="inner-addon right-addon"> 
+                    <input type="text" class="form-control" id="textMessage"/>
+                    <span class="glyphicon glyphicon-share-alt">
+                        <input type="hidden" id="sendMsg" onclick="sendMessage()"/>
+                    </span>                    
+                </div>
+
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <!--End of Chat Room-->
+
         <div>
             <a href="users" class="button">Back to homepage</a>
         </div>
+
         <script src="js/jquery/jquery-3.3.1.min.js"></script>
         <script src="js/match.js"></script>
         <script type="text/javascript">start();</script>
+        <script src="css/bootstrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+        <link href="css/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/match.css" rel="stylesheet" type="text/css"/>
     </body>
 </html>
