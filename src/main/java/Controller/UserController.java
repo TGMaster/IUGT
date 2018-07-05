@@ -66,7 +66,7 @@ public class UserController extends HttpServlet {
             player.setId(Long.parseLong(identity));
             player.setName(json.get("personaname").getAsString());
             player.setUrl(json.get("profileurl").getAsString());
-            player.setAvatar(json.get("avatar").getAsString());
+            player.setAvatar(json.get("avatarmedium").getAsString());
 
             session.setAttribute("player", player);
             response.sendRedirect("users");

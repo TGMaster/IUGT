@@ -249,42 +249,58 @@ input.addEventListener("keyup", function (event) {
  onlineList.appendChild(u);
  }
  */
-function imageUrl(user) {
-    // Display image
-    var u = document.createElement("a");
+function infoUser(user) {
+ 
+    // Info
+    var a = document.createElement("a");
+    a.setAttribute("href", user.url);
+    a.appendChild(document.createTextNode(user.name));
+    a.target = "_blank";
+
+    var img = document.createElement("img");
+    img.src = user.img;
+
+    var span = document.createElement("span");
+    span.setAttribute("class", "player-avatar pull-left");
+    span.appendChild(img);
+
+    var div = document.createElement("div");
+    div.setAttribute("class", "player-name clearfix");
+    div.appendChild(a);
+
+    var u = document.createElement("div");
+    u.setAttribute("class", "player-slot");
     u.setAttribute("id", user.id);
-    u.setAttribute("href", user.url);
-    var u_img = document.createElement("img");
-    u_img.src = user.img;
-    u.appendChild(u_img);
 
-    var u_input = document.createElement("input");
-    u_input.type = "text";
+    // Hidden fields
+    var u_id = document.createElement("input");
+    u_id.type = "text";
     if (user.team === "team1")
-        u_input.name = "Team1";
+        u_id.name = "Team1";
     if (user.team === "team2")
-        u_input.name = "Team2";
-    u_input.setAttribute("value", user.id);
-    u_input.setAttribute("hidden", "");
-    u.appendChild(u_input);
-
-    var u_input = document.createElement("input");
-    u_input.type = "text";
+        u_id.name = "Team2";
+    u_id.setAttribute("value", user.id);
+    u_id.setAttribute("hidden", "");
+    var u_name = document.createElement("input");
+    u_name.type = "text";
     if (user.team === "team1")
-        u_input.name = "Team1Name";
+        u_name.name = "Team1Name";
     if (user.team === "team2")
-        u_input.name = "Team2Name";
-    u_input.setAttribute("value", user.name);
-    u_input.setAttribute("hidden", "");
-    u.appendChild(u_input);
+        u_name.name = "Team2Name";
+    u_name.setAttribute("value", user.name);
+    u_name.setAttribute("hidden", "");
 
+    u.appendChild(span);
+    u.appendChild(div);
+    u.appendChild(u_id);
+    u.appendChild(u_name);
     return u;
 }
 
 function updateTeamList(user) {
     var team1 = getElement("TeamCT", by.id);
     var team2 = getElement("TeamT", by.id);
-    var u = imageUrl(user);
+    var u = infoUser(user);
     if (user.team === "team1") {
         //team2.removeChild(getElement(user.id, by.id));
         team1.appendChild(u);
@@ -296,7 +312,7 @@ function updateTeamList(user) {
 function changeTeam(user) {
     var team1 = getElement("TeamCT", by.id);
     var team2 = getElement("TeamT", by.id);
-    var u = imageUrl(user);
+    var u = infoUser(user);
     if (user.team === "team1") {
         team2.removeChild(getElement(user.id, by.id));
         team1.appendChild(u);
@@ -370,12 +386,12 @@ $(document).ready(function () {
     });
 });
 
-document.getElementById("copyButton").addEventListener("click", function() {
+document.getElementById("copyButton").addEventListener("click", function () {
     copyToClipboard(document.getElementById("copyTarget"));
 });
 
 function copyToClipboard(elem) {
-	// create hidden text element, if it doesn't already exist
+    // create hidden text element, if it doesn't already exist
     var targetId = "_hiddenCopyText_";
     var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
     var origSelectionStart, origSelectionEnd;
@@ -393,19 +409,19 @@ function copyToClipboard(elem) {
     var currentFocus = document.activeElement;
     target.focus();
     target.setSelectionRange(0, target.value.length);
-    
+
     // copy the selection
     var succeed;
     try {
-    	  succeed = document.execCommand("copy");
-    } catch(e) {
+        succeed = document.execCommand("copy");
+    } catch (e) {
         succeed = false;
     }
     // restore original focus
     if (currentFocus && typeof currentFocus.focus === "function") {
         currentFocus.focus();
     }
-    
+
     if (isInput) {
         // restore prior selection
         elem.setSelectionRange(origSelectionStart, origSelectionEnd);

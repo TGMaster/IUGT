@@ -43,46 +43,9 @@
                 <div class="teamview">
                     <div class="col-sm-1"></div>
                     <!--CT Team-->
-                    <div class="col-sm-3 team-info">
+                    <div class="col-sm-3 team-info" style="height: 476px">
                         <div class="team-tag"> Team 1 </div>
-                        <div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-left">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-left">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-left">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-left">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-left">
-                                    <img src="https://scontent.fsgn5-1.fna.fb.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix"></div>
-                            </div>
-                        </div>
-                        <span id="TeamCT"></span>
+                        <div id="TeamCT"></div>
                     </div>
                     <!--End of CT Team-->
 
@@ -106,54 +69,9 @@
                     <!--End of Match Info-->
 
                     <!--T Team-->
-                    <div class="col-sm-3 team-info">
+                    <div class="col-sm-3 team-info" style="height: 476px">
                         <div class="team-tag"> Team 2 </div>
-                        <div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-right">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-right">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-right">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-right">
-                                    <img src="https://scontent.fsgn5-1.fna.fbcdn.net/v/t1.15752-9/32710769_1911196845559611_3147100748857212928_n.jpg?_nc_cat=0&oh=e4024600e81967c391dc14d06acfb079&oe=5B9EA7F6"
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix">Spider Man</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="player-slot">
-                                <span class="player-avatar pull-right">
-                                    <img src=""
-                                         onerror="if (this.src != 'images/anonymous-avatar-sm.jpg') this.src = 'images/anonymous-avatar-sm.jpg';" width="64" height="64"/>
-                                </span>
-                                <div class="player-name clearfix"></div>
-                            </div>
-                        </div>
-                        <span id="TeamT"></span>
+                        <div id="TeamT"></div>
                     </div>
                     <!--End of T Team-->
                 </div>

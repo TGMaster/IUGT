@@ -81,6 +81,19 @@ body{
     pointer-events: none;
 }
 
+a:link {
+    text-decoration: none;
+    color: white;
+}
+a:visited {
+    text-decoration: none;
+    color: white;
+}
+a:hover {
+    color: cyan;
+    text-decoration: none;
+}
+
 /* align icon */
 .left-addon .glyphicon  { left:  0px;}
 .right-addon .glyphicon { right: 0px;}

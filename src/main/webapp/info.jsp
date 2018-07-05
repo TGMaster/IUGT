@@ -40,7 +40,7 @@
         <p><a href="match" class="button">Match Room</a></p>
         <p><a href="users?action=logout" class="button">Logout</a></p>
         <% } else {%>
-        <a href="users?action=login"><img src="images/steam/sits_02.png"></a>
+        <a href="users?action=login"><img src="images/steam/sits_01.png"></a>
             <% }%>
     </body>
 </html>
