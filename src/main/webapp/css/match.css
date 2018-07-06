@@ -30,9 +30,25 @@ body{
     text-align: center;
 }
 
-.server-connect{
-    margin-top: 20%;
+#BO{
+    width: 30%;
+    margin: 5% 35%;
+}
+
+#BO-chooser{
     text-align: center;
+    margin-bottom: 2%;
+}
+
+#switchBtn{
+    width: 30%;
+    margin: 0 35%;
+    border: 0;
+    color: #FFFFFF;
+}
+
+.server-connect{
+    margin-top: 5%;
 }
 
 .server-ip-wrapper{

@@ -36,8 +36,6 @@
     </head>
     <body onbeforeunload="return closeSocket()">
         <div class="row" id="upper-container">
-            <button id="switchBtn" onclick="swapTeam()">Switch</button>
-
             <!--Team List-->
             <form id="teamList">
                 <div class="teamview">
@@ -53,8 +51,19 @@
                     <div class="col-sm-4 match-info">
                         <div id="onlyOwner"></div>
 
+
                         <div class="server-info">
                             <img src="images/vs.jpg" width="64" height="64" alt="VS"/>
+                            <div id="BO">
+                                <select class="form-control" id="BO-chooser">
+                                    <option value="1">BO1</option>
+                                    <option value="2">BO2</option>
+                                    <option value="3">BO3</option>
+                                    <option value="5">BO5</option>
+                                </select>
+                                <input type="button" class="form-control btn-success" value="Start"/>
+                            </div>
+                            <button class="form-control btn-warning" id="switchBtn" onclick="swapTeam()">Switch</button>
                             <div class="server-connect">
                                 <input type="button" class="btn-danger btn-lg" value="Connect To Server"/> <br/>
                                 <div class="server-ip-wrapper">
@@ -108,7 +117,9 @@
         <script src="js/match.js"></script>
         <script type="text/javascript">start();</script>
         <script src="css/bootstrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/jquery/jquery-nice-select-1.1.0/js/jquery.nice-select.min.js" type="text/javascript"></script>
         <link href="css/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/match.css" rel="stylesheet" type="text/css"/>
+        <link href="js/jquery/jquery-nice-select-1.1.0/css/nice-select.css" rel="stylesheet" type="text/css"/>
     </body>
 </html>
