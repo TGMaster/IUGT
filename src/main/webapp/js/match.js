@@ -52,23 +52,29 @@ function onMessage(event) {
         if (response.owner === true) {
             var select = document.createElement('select');
             var Bo = {
-                1: 'Bo1',
-                2: 'Bo2',
-                3: 'Bo3',
-                5: 'Bo5'
+                1: "BO 1",
+                2: "BO 2",
+                3: "BO 3",
+                5: "BO 5"
             };
             for (var index in Bo) {
                 select.options[select.options.length] = new Option(Bo[index], index);
             }
-            owner.appendChild(select);
+            select.setAttribute("class", "form-control");
+            select.id = "BO-chooser";
 
-            var button = document.createElement('button');
-            button.setAttribute('type', 'submit');
-            button.id = 'numMaps';
+            var button = document.createElement("button");
+            button.setAttribute("type", "submit");
+            button.setAttribute("class", "form-control btn-success");
+            button.id = "numMaps";
             var t = document.createTextNode("Start");
             button.appendChild(t);
 
-            owner.appendChild(button);
+            var div = document.createElement("div");
+            div.id = "BO";
+            div.appendChild(select);
+            div.appendChild(button);
+            owner.appendChild(div);
         }
     }
     //If new user left chat room, notify others and update users list
@@ -223,14 +229,13 @@ function getElementText(id, by) {
 }
 
 // Execute a function when the user releases a key on the keyboard
-var input = getElement("textMessage", by.id);
-input.addEventListener("keyup", function (event) {
+getElement("textMessage", by.id).addEventListener("keyup", function (event) {
     // Cancel the default action, if needed
     event.preventDefault();
     // Number 13 is the "Enter" key on the keyboard
     if (event.keyCode === 13) {
-        // Trigger the button element with a click
-        getElement("sendMsg", by.id).click();
+        // Send message
+        sendMessage();
     }
 });
 /*
@@ -250,7 +255,7 @@ input.addEventListener("keyup", function (event) {
  }
  */
 function infoUser(user) {
- 
+
     // Info
     var a = document.createElement("a");
     a.setAttribute("href", user.url);
@@ -323,13 +328,54 @@ function changeTeam(user) {
 }
 
 function getServer(data) {
+    //Hide some buttons
+    if (getElement("BO", by.id) !== null)
+        remove("BO");
+    remove("switchBtn");
+
+    //Button
+    var button = document.createElement('button');
+    button.setAttribute('class', 'btn-danger btn-lg');
+    button.setAttribute('onclick', "window.open('" + data.url + "','_blank')");
+    var text = document.createTextNode("CONNECT TO SERVER");
+    button.appendChild(text);
+
+    var btn = document.createElement('div');
+    btn.appendChild(button);
+
+    //Input
+    var input = document.createElement('input');
+    input.setAttribute('type', "text");
+    input.setAttribute("class", "form-control");
+    input.value = data.ip;
+    input.id = "copyTarget";
+    input.setAttribute("readonly", "");
+
+    //Icon
+    var i = document.createElement("i");
+    i.setAttribute("class", "fa fa-copy");
+    var a = document.createElement("a");
+    a.id = "copyButton";
+    a.setAttribute("onclick", "copy('copyTarget')");
+    a.setAttribute("data-toggle", "tooltip");
+    a.setAttribute("title", "Copy to clipboard");
+    a.href = "#";
+    a.appendChild(i);
+
+    var icon = document.createElement("div");
+    icon.setAttribute("class", "icon-wrapper");
+    icon.appendChild(a);
+
+    //Input Final
+    var div = document.createElement('div');
+    div.setAttribute("class", "server-ip-wrapper");
+    div.appendChild(input);
+    div.appendChild(icon);
+
+    //Display
     var server = getElement("server", by.id);
-    server.innerHTML = data.msg;
-    var cmd = getElement("server_cmd", by.id);
-    var input = document.createElement("input");
-    input.setAttribute("value", data.ip);
-    input.setAttribute("readonly", "readonly");
-    cmd.appendChild(input);
+    server.appendChild(btn);
+    server.appendChild(div);
 }
 
 $(document).ready(function () {
@@ -359,7 +405,7 @@ $(document).ready(function () {
         team2_name = team2_name[0];
 
         // Get BO
-        var num = $('#numMaps').val();
+        var num = $('#BO-chooser').val();
 
         if (team1.length > 5 && team2.length > 5) {
             alert("Not enought player");
@@ -386,48 +432,16 @@ $(document).ready(function () {
     });
 });
 
-document.getElementById("copyButton").addEventListener("click", function () {
-    copyToClipboard(document.getElementById("copyTarget"));
-});
+function copy(id) {
+    var input = getElement(id, by.id);
+    input.select();
+    document.execCommand("copy");
 
-function copyToClipboard(elem) {
-    // create hidden text element, if it doesn't already exist
-    var targetId = "_hiddenCopyText_";
-    var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
-    var origSelectionStart, origSelectionEnd;
-    if (isInput) {
-        // can just use the original source element for the selection and copy
-        target = elem;
-        origSelectionStart = elem.selectionStart;
-        origSelectionEnd = elem.selectionEnd;
-    } else {
-        // must use a temporary form element for the selection and copy
-        target = document.getElementById(targetId);
-        target.textContent = elem.textContent;
-    }
-    // select the content
-    var currentFocus = document.activeElement;
-    target.focus();
-    target.setSelectionRange(0, target.value.length);
+    var tooltip = document.getElementById("myTooltip");
+    tooltip.innerHTML = "Copied";
+}
 
-    // copy the selection
-    var succeed;
-    try {
-        succeed = document.execCommand("copy");
-    } catch (e) {
-        succeed = false;
-    }
-    // restore original focus
-    if (currentFocus && typeof currentFocus.focus === "function") {
-        currentFocus.focus();
-    }
-
-    if (isInput) {
-        // restore prior selection
-        elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-    } else {
-        // clear temporary content
-        target.textContent = "";
-    }
-    return succeed;
+function remove(id) {
+    var ele = getElement(id, by.id);
+    ele.parentNode.removeChild(ele);
 }

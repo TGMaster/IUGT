@@ -142,7 +142,7 @@ public class UserManager {
 //        if (teamCT.size() == 5 && teamT.size() == 5) {
         JsonObject startMsg = new JsonObject();
         startMsg.addProperty("action", Config.START_GAME);
-        startMsg.addProperty("msg", MatchController.getStart_msg());
+        startMsg.addProperty("url", MatchController.getStart_msg());
         startMsg.addProperty("ip", MatchController.getStart_ip());
         for (Player player : onlinePlayers.get(id)) {
             if (pSession.containsKey(player.getId())) {

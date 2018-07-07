@@ -21,17 +21,9 @@
             var userUrl = "<%=p.getUrl()%>";
         </script>
 
-        <style>
-            a.button {
-                -webkit-appearance: button;
-                -moz-appearance: button;
-                appearance: button;
-
-                padding: 5px;
-                text-decoration: none;
-                color: initial;
-            }
-        </style>
+        <link href="css/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/match.css" rel="stylesheet" type="text/css"/>
+        <link href="css/fontawesome-4.7.0/font-awesome.min.css" rel="stylesheet">
 
     </head>
     <body onbeforeunload="return closeSocket()">
@@ -49,29 +41,12 @@
 
                     <!--Match Info-->
                     <div class="col-sm-4 match-info">
-                        <div id="onlyOwner"></div>
-
-
                         <div class="server-info">
                             <img src="images/vs.jpg" width="64" height="64" alt="VS"/>
-                            <div id="BO">
-                                <select class="form-control" id="BO-chooser">
-                                    <option value="1">BO1</option>
-                                    <option value="2">BO2</option>
-                                    <option value="3">BO3</option>
-                                    <option value="5">BO5</option>
-                                </select>
-                                <input type="button" class="form-control btn-success" value="Start"/>
-                            </div>
-                            <button class="form-control btn-warning" id="switchBtn" onclick="swapTeam()">Switch</button>
+                            <div id="onlyOwner"></div>
+                            <button class="form-control btn-warning" id="switchBtn" onclick="swapTeam()" type="button">Switch</button>
                             <div class="server-connect">
-                                <input type="button" class="btn-danger btn-lg" value="Connect To Server"/> <br/>
-                                <div class="server-ip-wrapper">
-                                    <input type="text" class="form-control" value="http://localhost:8080" id="copyTarget" readonly/>
-                                    <div class="icon-wrapper">
-                                        <a id="copyButton"><span class="glyphicon glyphicon-paperclip copy-icon"></span></a>
-                                    </div>
-                                </div>
+                                <div id="server"></div>
                             </div>
                         </div>
                     </div>
@@ -87,11 +62,6 @@
             </form>
         </div>
 
-        <div>
-            <a href="<%=Config.CONNECT_URL%>"><span id="server"></span></a>
-            <div id="server_cmd"></div>
-        </div>
-
         <!--Chat Room-->
         <div class="row">
             <div class="col-sm-4"></div>
@@ -99,9 +69,6 @@
                 <textarea class="form-control rounded-0" id="textAreaMessage" rows="15" readonly></textarea>
                 <div class="inner-addon right-addon"> 
                     <input type="text" class="form-control" id="textMessage"/>
-                    <span class="glyphicon glyphicon-share-alt">
-                        <input type="hidden" id="sendMsg" onclick="sendMessage()"/>
-                    </span>                    
                 </div>
 
             </div>
@@ -117,9 +84,5 @@
         <script src="js/match.js"></script>
         <script type="text/javascript">start();</script>
         <script src="css/bootstrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/jquery/jquery-nice-select-1.1.0/js/jquery.nice-select.min.js" type="text/javascript"></script>
-        <link href="css/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="css/match.css" rel="stylesheet" type="text/css"/>
-        <link href="js/jquery/jquery-nice-select-1.1.0/css/nice-select.css" rel="stylesheet" type="text/css"/>
     </body>
 </html>
