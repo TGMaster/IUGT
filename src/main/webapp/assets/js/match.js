@@ -37,6 +37,10 @@ function onOpen(event) {/*Session created.*/
 }
 
 function onClose(event) {/*Session closed - e.g Server down/unavailable*/
+    if (event.code === 1008) {
+        alert(event.reason);
+        window.location.href='users';
+    }
     updateChatBox("Server disconnected...");
 }
 
@@ -121,7 +125,7 @@ function onMessage(event) {
     if (response.action === actions.REMOVE_MATCH) {
         if (response.id !== userId) {
             alert(response.message);
-            window.location.href = 'users';
+            window.location.href='users';
         }
     }
 }

@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
  * @author TGMaster
  */
 public class MatchController extends HttpServlet {
-    
+
     public static String start_msg;
     public static String start_ip;
 
@@ -46,7 +46,7 @@ public class MatchController extends HttpServlet {
     public static void setStart_ip(String start_ip) {
         MatchController.start_ip = start_ip;
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -110,13 +110,16 @@ public class MatchController extends HttpServlet {
                 }
 
                 // Send rcon to server
-//                try {
-//                    Rcon rcon = new Rcon(Config.SERVER_IP, 27015, "iugt1234".getBytes());
-//                    String cmd = "get5_loadmatch_url \"http://" + Config.HOST_URL + "/match?action=file&name=" + name + "\"";
-//                    rcon.command(cmd);
-//                } catch (AuthenticationException ex) {
-//                }
-                
+                if (!Config.DEBUG) {
+                    try {
+                        Rcon rcon = new Rcon(Config.SERVER_IP, 27015, "iugt1234".getBytes());
+                        String cmd = "get5_loadmatch_url \"http://" + Config.HOST_URL + "/match?action=file&name=" + name + "\"";
+                        System.out.println(cmd);
+                        rcon.command(cmd);
+                    } catch (AuthenticationException ex) {
+                    }
+                }
+
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 JsonObject json = new JsonObject();

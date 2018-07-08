@@ -10,23 +10,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Chat Page</title>
-
+        <title>IU Gaming Tour</title>
         <%Player p = (Player) session.getAttribute("player");%>
+
         <script type="text/javascript">
-            var socketUrl = "ws://localhost:8080/game";
+            var socketUrl = "ws://<%=Config.HOST_URL%>/game";
             var userId = "<%=p.getId()%>";
             var userName = "<%=p.getName()%>";
             var userImg = "<%=p.getAvatar()%>";
             var userUrl = "<%=p.getUrl()%>";
         </script>
 
-        <link href="css/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="css/match.css" rel="stylesheet" type="text/css"/>
-        <link href="css/fontawesome-4.7.0/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/match.min.css">
+        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
 
     </head>
-    <body onbeforeunload="return closeSocket()">
+    <body onunload="return closeSocket()">
         <div class="row" id="upper-container">
             <!--Team List-->
             <form id="teamList">
@@ -42,7 +42,7 @@
                     <!--Match Info-->
                     <div class="col-sm-4 match-info">
                         <div class="server-info">
-                            <img src="images/vs.jpg" width="64" height="64" alt="VS"/>
+                            <img src="assets/images/vs.jpg" width="64" height="64" alt="VS"/>
                             <div id="onlyOwner"></div>
                             <button class="form-control btn-warning" id="switchBtn" onclick="swapTeam()" type="button">Switch</button>
                             <div class="server-connect">
@@ -77,12 +77,13 @@
         <!--End of Chat Room-->
 
         <div>
-            <a href="users" class="button">Back to homepage</a>
+            <a href="users" class="btn btn-danger">Back to homepage</a>
         </div>
 
-        <script src="js/jquery/jquery-3.3.1.min.js"></script>
-        <script src="js/match.js"></script>
+        <script src="assets/js/jquery/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/match.js"></script>
         <script type="text/javascript">start();</script>
-        <script src="css/bootstrap-3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+
     </body>
 </html>

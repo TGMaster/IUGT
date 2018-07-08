@@ -16,7 +16,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -28,7 +32,7 @@ import javax.websocket.server.ServerEndpoint;
 public class Server {
 
     private static Integer numPlayers = 0;
-    //static Set<Session> users = Collections.synchronizedSet(new HashSet<Session>());
+    static Set<Session> users = new HashSet<Session>();
 
     public static Integer getNumPlayers() {
         return numPlayers;
@@ -40,7 +44,28 @@ public class Server {
 
     @OnOpen
     public void handleOpen(Session session) {
+
         numPlayers++;
+        if (numPlayers > 10) {
+            if (session.isOpen()) {
+                try {
+                    CloseReason rs = new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "The room is full, please wait for the next match!");
+                    session.close(rs);
+                } catch (IOException ex) {
+                }
+            }
+        }
+        if (!users.contains(session)) {
+            users.add(session);
+        } else {
+            if (session.isOpen()) {
+                try {
+                    CloseReason rs = new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "You have joined the room!");
+                    session.close(rs);
+                } catch (IOException ex) {
+                }
+            }
+        }
     }
 
     @OnMessage

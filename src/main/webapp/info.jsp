@@ -11,17 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <style>
-            a.button {
-                -webkit-appearance: button;
-                -moz-appearance: button;
-                appearance: button;
-                
-                padding: 5px;
-                text-decoration: none;
-                color: initial;
-            }
-        </style>
+        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/fontawesome/font-awesome.min.css">
     </head>
     <body>
         <%
@@ -32,6 +23,13 @@
             }
             if (!isNull) {
         %>
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                
+            </div>
+        </div>
+        
+        
         <p>ID: <%=player.getId()%></p>
         <p>Name: <%=player.getName()%></p>
         <p>URL: <a href="<%=player.getUrl()%>"><%=player.getUrl()%></a></p>
@@ -42,5 +40,7 @@
         <% } else {%>
         <a href="users?action=login"><img src="images/steam/sits_01.png"></a>
             <% }%>
+        
+        <script src="css/bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>

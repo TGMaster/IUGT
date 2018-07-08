@@ -50,7 +50,7 @@ public class UserController extends HttpServlet {
         OpenID op = new OpenID();
         String action = request.getParameter("action");
         if (action == null) {
-            rd = sc.getRequestDispatcher("/info.jsp");
+            rd = sc.getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
         } else if (action.equals("openid")) {
             // Create object
