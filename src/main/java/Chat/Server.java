@@ -97,6 +97,7 @@ public class Server {
     @OnClose
     public void handleClose(Session session) {
         numPlayers--;
+        users.remove(session);
     }
 
     @OnError
