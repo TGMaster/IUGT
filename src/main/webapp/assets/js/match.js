@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global socketUrl, userId, WebSocket, userName, userUrl, userImg */
+/* global socketUrl, userId, WebSocket, userName, userUrl, userImg, websocket */
 var actions = {
     JOIN_CHAT: "join",
     LEAVE_CHAT: "leave",

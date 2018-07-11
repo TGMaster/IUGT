@@ -17,8 +17,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
@@ -32,14 +30,13 @@ import javax.websocket.server.ServerEndpoint;
 public class Server {
 
     private static Integer numPlayers = 0;
-    static Set<Session> users = new HashSet<Session>();
 
-    public static Integer getNumPlayers() {
+    protected static Integer getNumPlayers() {
         return numPlayers;
     }
 
-    public static void setNumPlayers(Integer numPlayers) {
-        Server.numPlayers = numPlayers;
+    protected static void setNumPlayers(int n) {
+       numPlayers = n;
     }
 
     @OnOpen
@@ -55,17 +52,6 @@ public class Server {
                 }
             }
         }
-        if (!users.contains(session)) {
-            users.add(session);
-        } else {
-            if (session.isOpen()) {
-                try {
-                    CloseReason rs = new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "You have joined the room!");
-                    session.close(rs);
-                } catch (IOException ex) {
-                }
-            }
-        }
     }
 
     @OnMessage
@@ -76,28 +62,22 @@ public class Server {
             joinChat(json, session);
         }
         if (Config.LEAVE_CHAT.equals(json.get("action").getAsString())) {
-            leaveChat(json, session);
+            leaveChat(json);
         }
         if (Config.CHAT_MSG.equals(json.get("action").getAsString())) {
-            chatMessage(json, session);
+            chatMessage(json);
         }
         if (Config.SWAP_TEAM.equals(json.get("action").getAsString())) {
-            swapTeam(json, session);
+            swapTeam(json);
         }
         if (Config.START_GAME.equals(json.get("action").getAsString())) {
-            startGame(json, session);
+            startGame(json);
         }
-        /*
-        for (Session s : users) {
-            s.getBasicRemote().sendText(username + ": " + message);
-        }
-         */
     }
 
     @OnClose
-    public void handleClose(Session session) {
+    public void handleClose() {
         numPlayers--;
-        users.remove(session);
     }
 
     @OnError
@@ -107,31 +87,31 @@ public class Server {
 
     private void joinChat(JsonObject json, Session session) {
         Player p = new Player();
-        p.setId(json.get("id").getAsLong());
+        p.setId(json.get("id").getAsString());
         p.setName(json.get("name").getAsString());
         p.setUrl(json.get("url").getAsString());
         p.setAvatar(json.get("img").getAsString());
         UserManager.joinChat(p, session);
     }
 
-    private void leaveChat(JsonObject json, Session session) {
-        Long id = json.get("id").getAsLong();
-        UserManager.leaveChat(id, session);
+    private void leaveChat(JsonObject json) {
+        String id = json.get("id").getAsString();
+        UserManager.leaveChat(id);
     }
 
-    private void chatMessage(JsonObject json, Session session) {
-        Long id = json.get("id").getAsLong();
+    private void chatMessage(JsonObject json) {
+        String id = json.get("id").getAsString();
         String msg = json.get("message").getAsString();
         UserManager.sendMessage(id, msg);
     }
 
-    private void swapTeam(JsonObject json, Session session) {
-        Long id = json.get("id").getAsLong();
+    private void swapTeam(JsonObject json) {
+        String id = json.get("id").getAsString();
         UserManager.swapTeam(id);
     }
 
-    private void startGame(JsonObject json, Session session) {
-        Long id = json.get("id").getAsLong();
+    private void startGame(JsonObject json) {
+        String id = json.get("id").getAsString();
         UserManager.startGame(id);
     }
 }

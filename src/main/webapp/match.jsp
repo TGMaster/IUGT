@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
 
     </head>
-    <body onunload="return closeSocket()">
+    <body onbeforeunload="return closeSocket()">
         <div class="row" id="upper-container">
             <!--Team List-->
             <form id="teamList">
@@ -82,7 +82,7 @@
 
         <script src="assets/js/jquery/jquery.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/match.js"></script>
+        <script src="assets/js/match.min.js"></script>
         <script type="text/javascript">start();</script>
 
     </body>

@@ -63,7 +63,7 @@ public class UserController extends HttpServlet {
             JsonObject json = Json.readJsonFromUrl(sURL);
 
             // Set attributes
-            player.setId(Long.parseLong(identity));
+            player.setId(identity);
             player.setName(json.get("personaname").getAsString());
             player.setUrl(json.get("profileurl").getAsString());
             player.setAvatar(json.get("avatarmedium").getAsString());

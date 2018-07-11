@@ -11,12 +11,12 @@ package POJO;
  */
 public class Player {
     
-    private Long id;
+    private String id;
     private String name;
     private String url;
     private String avatar;
 
-    public Player(Long id, String name, String url, String avatar) {
+    public Player(String id, String name, String url, String avatar) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -26,11 +26,11 @@ public class Player {
     public Player() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
