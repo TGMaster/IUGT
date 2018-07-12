@@ -10,6 +10,7 @@ import Controller.MatchController;
 import POJO.Player;
 
 import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +20,6 @@ import javax.websocket.CloseReason;
 import javax.websocket.Session;
 
 /**
- *
  * @author TGMaster
  */
 public class UserManager {
@@ -46,22 +46,22 @@ public class UserManager {
                     break;
                 }
             }
-        }
 
-        if (isJoined) {
-            if (session.isOpen()) {
-                try {
-                    CloseReason rs = new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "You have joined the room");
-                    session.close(rs);
-                    Server.setNumPlayers(count-1);
-                    return;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+            if (isJoined) {
+                if (session.isOpen()) {
+                    try {
+                        CloseReason rs = new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "You have joined the room");
+                        session.close(rs);
+                        Server.setNumPlayers(count - 1);
+                        return;
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+            } else {
+                isOwner.put(p.getId(), false);
+                players.add(p);
             }
-        } else {
-            isOwner.put(p.getId(), false);
-            players.add(p);
         }
 
         pSession.put(p.getId(), session);

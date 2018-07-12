@@ -8,18 +8,13 @@ and open the template in the editor.
     Author     : CREAT10N
 */
 body{
-    background-color: #0F1313;
-}
-
-.team-tag{
-    color: #FFFFFF;
-    text-align: center;
+    background-color: #1b1b1ff7;
 }
 
 .player-slot{
     color: #FFFFFF;
-    background-color: #0E0E10;
     margin: 5% 0;
+    border-radius: 5px;
 }
 
 .player-name{
@@ -31,7 +26,7 @@ body{
 }
 
 #BO{
-    width: 30%;
+    width: 100px;
     margin: 5% 35%;
 }
 
@@ -41,10 +36,31 @@ body{
 }
 
 #switchBtn{
-    width: 30%;
-    margin: 0 35%;
-    border: 0;
+    width: 100px;
     color: #FFFFFF;
+    background-color: #222226;
+    border-color: #06ffed;
+    margin: 0 20px;
+}
+
+#startBtn {
+    width: 100px;
+    color: #FFFFFF;
+    background-color: #222226;
+    border-color: #e8ff10;
+}
+
+.btn-control {
+    display: flex;
+    justify-content: flex-end;
+    padding: 30px;
+}
+
+.btn-leave {
+    width: 100px;
+    color: #FFFFFF;
+    background-color: #222226;
+    border-color: #ff2a2d;
 }
 
 .server-connect{
@@ -80,14 +96,35 @@ body{
 }
 
 #textAreaMessage{
-    border-color: #1A191E;
-    background-color: #1A191E;
+    border-color: #09ff05;
+    background-color: rgba(10, 11, 14, 0.5);
     color: #FFFFFF;
     resize: none;
+    border-radius: 0;
+    border-bottom-style: none;
+}
+
+#textMessage {
+    border-color: #09ff05;
+    background-color: #16171a;
+    border-radius: 0;
+    border-top-style: dashed;
 }
 
 .inner-addon { 
     position: relative; 
+}
+
+#TeamCT {
+    background-blend-mode: lighten;
+    background: linear-gradient(90deg, #2b577c, #222226);
+    border-radius: 5px;
+}
+
+#TeamT {
+    background-blend-mode: lighten;
+    background: linear-gradient(-90deg, #6a5a37, #222226);
+    border-radius: 5px;
 }
 
 /* style icon */
