@@ -261,9 +261,12 @@ getElement("textMessage", by.id).addEventListener("keyup", function (event) {
 function infoUser(user) {
 
     // Info
+    var h3 =  document.createElement("h3");
+    h3.innerHTML = user.name;
+
     var a = document.createElement("a");
     a.setAttribute("href", user.url);
-    a.appendChild(document.createTextNode(user.name));
+    a.appendChild(h3);
     a.target = "_blank";
 
     var img = document.createElement("img");
