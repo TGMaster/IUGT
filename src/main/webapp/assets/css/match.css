@@ -40,7 +40,7 @@ body{
     color: #FFFFFF;
     background-color: #222226;
     border-color: #06ffed;
-    margin: 0 20px;
+    margin-right: 20px;
 }
 
 #startBtn {
@@ -48,6 +48,7 @@ body{
     color: #FFFFFF;
     background-color: #222226;
     border-color: #e8ff10;
+    margin-right: 20px;
 }
 
 .btn-control {
@@ -60,7 +61,8 @@ body{
     width: 100px;
     color: #FFFFFF;
     background-color: #222226;
-    border-color: #ff2a2d;
+    border-color: #f00;
+    margin-right: 20px;
 }
 
 .server-connect{
@@ -123,7 +125,7 @@ body{
 
 #TeamT {
     background-blend-mode: lighten;
-    background: linear-gradient(-90deg, #6a5a37, #222226);
+    background: linear-gradient(90deg, #8e6307, #222226);
     border-radius: 5px;
 }
 
@@ -143,7 +145,7 @@ a:visited {
     color: white;
 }
 a:hover {
-    color: cyan;
+    color: #ff0012;
     text-decoration: none;
 }
 

@@ -39,7 +39,7 @@ function onOpen(event) {/*Session created.*/
 function onClose(event) {/*Session closed - e.g Server down/unavailable*/
     if (event.code === 1008) {
         alert(event.reason);
-        window.location.href='users';
+        window.location.href = 'users';
     }
     updateChatBox("Server disconnected...");
 }
@@ -56,10 +56,10 @@ function onMessage(event) {
         if (response.owner === true) {
             var select = document.createElement('select');
             var Bo = {
-                1: "BO 1",
-                2: "BO 2",
-                3: "BO 3",
-                5: "BO 5"
+                1: "1 map",
+                2: "2 maps",
+                3: "3 maps",
+                5: "5 maps"
             };
             for (var index in Bo) {
                 select.options[select.options.length] = new Option(Bo[index], index);
@@ -67,18 +67,25 @@ function onMessage(event) {
             select.setAttribute("class", "form-control");
             select.id = "BO-chooser";
 
+            var i = document.createElement('i');
+            i.setAttribute("class", "fa fa-play");
+            i.setAttribute("style", "font-size:17px");
+
             var button = document.createElement("button");
             button.setAttribute("type", "submit");
-            button.setAttribute("class", "form-control btn-success");
-            button.id = "numMaps";
-            var t = document.createTextNode("Start");
+            button.setAttribute("class", "btn btn-default");
+            button.id = "startBtn";
+            var t = document.createElement('strong');
+            t.innerHTML = " START";
+            button.appendChild(i);
             button.appendChild(t);
 
             var div = document.createElement("div");
             div.id = "BO";
             div.appendChild(select);
-            div.appendChild(button);
             owner.appendChild(div);
+
+            document.getElementById('btnGroup').appendChild(button);
         }
     }
     //If new user left chat room, notify others and update users list
@@ -125,12 +132,15 @@ function onMessage(event) {
     if (response.action === actions.REMOVE_MATCH) {
         if (response.id !== userId) {
             alert(response.message);
-            window.location.href='users';
+            window.location.href = 'users';
         }
     }
 }
+
 function updateChatBox(message) {
-    getElement("textAreaMessage", by.id).innerHTML += message + " \n";
+    var chatBox = getElement("textAreaMessage", by.id);
+    chatBox.innerHTML += message + " \n";
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 // Main Functions
@@ -242,6 +252,7 @@ getElement("textMessage", by.id).addEventListener("keyup", function (event) {
         sendMessage();
     }
 });
+
 /*
  function updateUserList(user) {
  // To-do: more functions here
@@ -261,7 +272,7 @@ getElement("textMessage", by.id).addEventListener("keyup", function (event) {
 function infoUser(user) {
 
     // Info
-    var h3 =  document.createElement("h3");
+    var h3 = document.createElement("h3");
     h3.innerHTML = user.name;
 
     var a = document.createElement("a");
@@ -339,12 +350,16 @@ function getServer(data) {
     if (getElement("BO", by.id) !== null)
         remove("BO");
     remove("switchBtn");
+    if (getElement("startBtn", by.id) !== null)
+        remove("startBtn");
 
     //Button
     var button = document.createElement('button');
     button.setAttribute('class', 'btn-danger btn-lg');
     button.setAttribute('onclick', "window.open('" + data.url + "','_blank')");
-    var text = document.createTextNode("CONNECT TO SERVER");
+    button.setAttribute('type', 'button');
+    var text = document.createElement('strong');
+    text.innerHTML = "CONNECT TO SERVER";
     button.appendChild(text);
 
     var btn = document.createElement('div');
@@ -361,6 +376,7 @@ function getServer(data) {
     //Icon
     var i = document.createElement("i");
     i.setAttribute("class", "fa fa-copy");
+    i.setAttribute("style", "font-size:20px; padding: 7px; color: black");
     var a = document.createElement("a");
     a.id = "copyButton";
     a.setAttribute("onclick", "copy('copyTarget')");
@@ -391,27 +407,27 @@ $(document).ready(function () {
         e.preventDefault();
         // Get id
         var team1 = $("input[name='Team1']")
-                .map(function () {
-                    return $(this).val();
-                }).get();
+            .map(function () {
+                return $(this).val();
+            }).get();
         var team2 = $("input[name='Team2']")
-                .map(function () {
-                    return $(this).val();
-                }).get();
+            .map(function () {
+                return $(this).val();
+            }).get();
 
         // Get name
         var team1_name = $("input[name='Team1Name']")
-                .map(function () {
-                    return $(this).val();
-                }).get();
+            .map(function () {
+                return $(this).val();
+            }).get();
         var team2_name = $("input[name='Team2Name']")
-                .map(function () {
-                    return $(this).val();
-                }).get();
+            .map(function () {
+                return $(this).val();
+            }).get();
         team1_name = team1_name[0];
         team2_name = team2_name[0];
 
-        // Get BO
+        // Get number of maps
         var num = $('#BO-chooser').val();
 
         if (team1.length > 5 && team2.length > 5) {
@@ -429,9 +445,13 @@ $(document).ready(function () {
                         Team2Name: team2_name,
                         numMaps: num
                     },
-                    success: function (responseText) {
-                        console.log(responseText);
-                        startGame();
+                    success: function (response) {
+                        if (response.status === 200) {
+                            startGame();
+                            console.log(response.msg);
+                        }
+                        else
+                            alert(response.msg);
                     }
                 });
             }, 1000);

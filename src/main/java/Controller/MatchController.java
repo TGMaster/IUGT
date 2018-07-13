@@ -81,6 +81,16 @@ public class MatchController extends HttpServlet {
                 String name_team2 = request.getParameter("Team2Name");
                 int maps = Integer.parseInt(request.getParameter("numMaps"));
 
+                if (!isValidMatchConfig(team1, team2, name_team1, name_team2)) {
+                    response.setContentType("application/json;charset=UTF-8");
+                    JsonObject response_msg = new JsonObject();
+                    response_msg.addProperty("status", 199);
+                    response_msg.addProperty("msg", "Not enough player to start");
+                    Gson gs = new Gson();
+                    response.getWriter().write(gs.toJson(response_msg));
+                    return;
+                }
+
                 TeamConfig t1 = new TeamConfig();
                 t1.setPlayers(team1);
                 t1.setName("team_" + name_team1);
@@ -119,14 +129,15 @@ public class MatchController extends HttpServlet {
                     } catch (AuthenticationException ex) {
                     }
                 }
-
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                JsonObject json = new JsonObject();
                 MatchController.setStart_msg(Config.CONNECT_URL);
                 MatchController.setStart_ip("connect " + Config.SERVER_IP);
-                response.setContentType("text/html");
-                response.getWriter().write("Success");
+
+                response.setContentType("application/json;charset=UTF-8");
+                JsonObject response_msg = new JsonObject();
+                response_msg.addProperty("status", 200);
+                response_msg.addProperty("msg", "OK - Path: " + matchFile.getAbsolutePath());
+                Gson gs = new Gson();
+                response.getWriter().write(gs.toJson(response_msg));
             }
 
         } else if (action.equals("file")) {
@@ -149,6 +160,13 @@ public class MatchController extends HttpServlet {
             response.getWriter().print(jout);
         }
 
+    }
+
+    private boolean isValidMatchConfig(String[] team1, String[] team2, String name1, String name2) {
+        if (team1 == null || team2 == null || name1 == null || name2 == null
+                || name1.equals("") || name2.equals(""))
+            return false;
+        return true;
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
