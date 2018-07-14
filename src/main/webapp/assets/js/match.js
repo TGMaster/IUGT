@@ -399,6 +399,11 @@ function getServer(data) {
     var server = getElement("server", by.id);
     server.appendChild(btn);
     server.appendChild(div);
+
+    //Play sound
+    var audio = new Audio('assets/sound/startgame.mp3');
+    audio.play();
+
 }
 
 $(document).ready(function () {
