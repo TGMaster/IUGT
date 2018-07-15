@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Chat.UserManager;
 import Config.*;
 import POJO.Player;
 import Rcon.Rcon;
@@ -75,13 +76,17 @@ public class MatchController extends HttpServlet {
             if (p == null) {
                 response.sendRedirect("users");
             } else {
-                String[] team1 = request.getParameterValues("Team1[]");
-                String[] team2 = request.getParameterValues("Team2[]");
-                String name_team1 = request.getParameter("Team1Name");
-                String name_team2 = request.getParameter("Team2Name");
+//                String[] team1 = request.getParameterValues("Team1[]");
+//                String[] team2 = request.getParameterValues("Team2[]");
+//                String name_team1 = request.getParameter("Team1Name");
+//                String name_team2 = request.getParameter("Team2Name");
+                String[] teamCT = UserManager.getTeamCT();
+                String[] teamT = UserManager.getTeamT();
+                String teamCT_name = UserManager.getTeamNameCT();
+                String teamT_name = UserManager.getTeamNameT();
                 int maps = Integer.parseInt(request.getParameter("numMaps"));
 
-                if (!isValidMatchConfig(team1, team2, name_team1, name_team2)) {
+                if (!isValidMatchConfig(teamCT, teamT, teamCT_name, teamT_name)) {
                     response.setContentType("application/json;charset=UTF-8");
                     JsonObject response_msg = new JsonObject();
                     response_msg.addProperty("status", 199);
@@ -92,12 +97,12 @@ public class MatchController extends HttpServlet {
                 }
 
                 TeamConfig t1 = new TeamConfig();
-                t1.setPlayers(team1);
-                t1.setName("team_" + name_team1);
+                t1.setPlayers(teamCT);
+                t1.setName("team_" + teamCT_name);
 
                 TeamConfig t2 = new TeamConfig();
-                t2.setPlayers(team2);
-                t2.setName("team_" + name_team2);
+                t2.setPlayers(teamT);
+                t2.setName("team_" + teamT_name);
 
                 MatchConfig m = new MatchConfig();
 

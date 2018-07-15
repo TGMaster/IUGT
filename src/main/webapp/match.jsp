@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 
 </head>
-<body onbeforeunload="return closeSocket()">
+<body onunload="return closeSocket()">
 <section>
     <nav class="navbar navbar-default navbar-fixed-top navigation-clean-button"
          style="background-color:rgba(0, 0, 0, 0.5);color:rgb(255,255,255);">
@@ -38,12 +38,6 @@
                     <img class="img-responsive" src="assets/images/iugt-white.png"
                          style="width:50px;height:50px;margin-top:-15px;">IU GAMING TOUR
                 </a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -81,10 +75,9 @@
                 <i class="fa fa-exchange" style="font-size:17px;"></i> <strong>SWITCH</strong></strong>
             </button>
 
-            <a href="users" class="btn btn-default btn-leave" role="button"><i class="fa fa-times"
-                                                                               style="font-size:17px;"></i>
+            <button class="btn btn-default btn-leave"><i class="fa fa-times" style="font-size:17px;"></i>
                 <strong>LEAVE</strong>
-            </a>
+            </button>
         </div>
 
         <div class="row" id="upper-container">

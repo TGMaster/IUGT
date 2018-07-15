@@ -299,4 +299,41 @@ public class UserManager {
         swapMessage.addProperty("team", team);
         return swapMessage;
     }
+    
+    // Get Team as String Array and Team name
+    public static String[] getTeamCT() {
+        String[] gamers = new String[5];
+        int i = 0;
+        for (Player p : teamCT) {
+            gamers[i] = p.getId();
+            i++;
+        }
+        return gamers;
+    }
+
+    public static String[] getTeamT() {
+        String[] gamers = new String[5];
+        int i = 0;
+        for (Player p : teamT) {
+            gamers[i] = p.getId();
+            i++;
+        }
+        return gamers;
+    }
+
+    public static String getTeamNameCT() {
+        String name = "";
+        if (!teamCT.isEmpty()) {
+            name = teamCT.iterator().next().getName();
+        }
+        return name;
+    }
+
+    public static String getTeamNameT() {
+        String name = "";
+        if (!teamT.isEmpty()) {
+            name = teamT.iterator().next().getName();
+        }
+        return name;
+    }
 }

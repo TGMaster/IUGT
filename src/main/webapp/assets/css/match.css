@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : CREAT10N
 */
 body{
-    background-color: #1b1b1ff7;
+    background-color: #222226;
 }
 
 .player-slot{
@@ -19,6 +19,8 @@ body{
 
 .player-name{
     text-align: center;
+    vertical-align: middle;
+    line-height: 64px;
 }
 
 .server-info{
@@ -73,22 +75,28 @@ body{
     margin-top: 20px;
     display: inline-block;
     border-radius: 5%;
+    font-size: 87%;
+    color: white;
+}
+
+#connect-btn {
+    margin-top: 10%;
 }
 
 #copyTarget{
     float: left;
-    width: 85%;
+    width: 80%;
     background-color: #FFFFFF;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    margin-left:4%;
 }
 
 .icon-wrapper{
     float: left;
     background: #FFFFFF;
-    width: 15%;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-top-right-radius: 15%;
+    border-bottom-right-radius: 15%;
 }
 
 .copy-icon{
@@ -117,15 +125,13 @@ body{
     position: relative; 
 }
 
-#TeamCT {
-    background-blend-mode: lighten;
+.TeamCT {
     background: linear-gradient(90deg, #2b577c, #222226);
     border-radius: 5px;
 }
 
-#TeamT {
-    background-blend-mode: lighten;
-    background: linear-gradient(90deg, #8e6307, #222226);
+.TeamT {
+    background: linear-gradient(-90deg, #8e6307, #222226);
     border-radius: 5px;
 }
 
@@ -156,3 +162,37 @@ a:hover {
 /* add padding  */
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+@media screen and (max-device-width : 1374px)
+{
+  #name
+  {
+    font-size: 18px;
+  }
+  .btn-lg
+  {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-device-width : 1280px)
+{
+  #name
+  {
+    font-size: 15px;
+  }
+  #copyTarget {
+      margin-left: 1% !important;
+  }
+}
+
+@media screen and (max-device-width : 1440px)
+{
+  .btn-lg
+  {
+    font-size: 15px;
+  }
+  #copyTarget {
+      margin-left: 2%;
+  }
+}

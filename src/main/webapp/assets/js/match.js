@@ -132,6 +132,7 @@ function onMessage(event) {
     if (response.action === actions.REMOVE_MATCH) {
         if (response.id !== userId) {
             alert(response.message);
+            closeSocket();
             window.location.href = 'users';
         }
     }
@@ -253,27 +254,12 @@ getElement("textMessage", by.id).addEventListener("keyup", function (event) {
     }
 });
 
-/*
- function updateUserList(user) {
- // To-do: more functions here
- var onlineList = getElement("onlineList", by.id);
- var u = document.createElement("a");
- u.setAttribute("id", user.id);
- u.setAttribute("href", user.url);
- 
- // Display image
- var u_img = document.createElement("img");
- u_img.src = user.img;
- u.appendChild(u_img);
- 
- onlineList.appendChild(u);
- }
- */
 function infoUser(user) {
 
     // Info
     var h3 = document.createElement("h3");
     h3.innerHTML = user.name;
+    h3.id = "name";
 
     var a = document.createElement("a");
     a.setAttribute("href", user.url);
@@ -284,7 +270,11 @@ function infoUser(user) {
     img.src = user.img;
 
     var span = document.createElement("span");
-    span.setAttribute("class", "player-avatar pull-left");
+    if (user.team === "team1")
+        span.setAttribute("class", "player-avatar pull-left");
+
+    if (user.team === "team2")
+        span.setAttribute("class", "player-avatar pull-right");
     span.appendChild(img);
 
     var div = document.createElement("div");
@@ -292,31 +282,14 @@ function infoUser(user) {
     div.appendChild(a);
 
     var u = document.createElement("div");
-    u.setAttribute("class", "player-slot");
+    if (user.team === "team1")
+        u.setAttribute("class", "player-slot TeamCT");
+    if (user.team === "team2")
+        u.setAttribute("class", "player-slot TeamT");
     u.setAttribute("id", user.id);
-
-    // Hidden fields
-    var u_id = document.createElement("input");
-    u_id.type = "text";
-    if (user.team === "team1")
-        u_id.name = "Team1";
-    if (user.team === "team2")
-        u_id.name = "Team2";
-    u_id.setAttribute("value", user.id);
-    u_id.setAttribute("hidden", "");
-    var u_name = document.createElement("input");
-    u_name.type = "text";
-    if (user.team === "team1")
-        u_name.name = "Team1Name";
-    if (user.team === "team2")
-        u_name.name = "Team2Name";
-    u_name.setAttribute("value", user.name);
-    u_name.setAttribute("hidden", "");
 
     u.appendChild(span);
     u.appendChild(div);
-    u.appendChild(u_id);
-    u.appendChild(u_name);
     return u;
 }
 
@@ -325,7 +298,6 @@ function updateTeamList(user) {
     var team2 = getElement("TeamT", by.id);
     var u = infoUser(user);
     if (user.team === "team1") {
-        //team2.removeChild(getElement(user.id, by.id));
         team1.appendChild(u);
     } else if (user.team === "team2") {
         team2.appendChild(u);
@@ -363,7 +335,12 @@ function getServer(data) {
     button.appendChild(text);
 
     var btn = document.createElement('div');
+    btn.id = 'connect-btn';
     btn.appendChild(button);
+    
+    //Label
+    var label = document.createElement('label');
+    label.innerHTML = "Or copy this command and paste in your console";
 
     //Input
     var input = document.createElement('input');
@@ -392,6 +369,7 @@ function getServer(data) {
     //Input Final
     var div = document.createElement('div');
     div.setAttribute("class", "server-ip-wrapper");
+    div.appendChild(label);
     div.appendChild(input);
     div.appendChild(icon);
 
@@ -407,60 +385,35 @@ function getServer(data) {
 }
 
 $(document).ready(function () {
+    $('.btn-leave').click(function () {
+        closeSocket();
+        window.location.href = 'users';
+    });
     var x_timer;
     $('#teamList').submit(function (e) {
         e.preventDefault();
-        // Get id
-        var team1 = $("input[name='Team1']")
-            .map(function () {
-                return $(this).val();
-            }).get();
-        var team2 = $("input[name='Team2']")
-            .map(function () {
-                return $(this).val();
-            }).get();
-
-        // Get name
-        var team1_name = $("input[name='Team1Name']")
-            .map(function () {
-                return $(this).val();
-            }).get();
-        var team2_name = $("input[name='Team2Name']")
-            .map(function () {
-                return $(this).val();
-            }).get();
-        team1_name = team1_name[0];
-        team2_name = team2_name[0];
 
         // Get number of maps
         var num = $('#BO-chooser').val();
 
-        if (team1.length > 5 && team2.length > 5) {
-            alert("Not enought player");
-        } else {
-            clearTimeout(x_timer);
-            x_timer = setTimeout(function () {
-                $.ajax({
-                    url: 'match',
-                    data: {
-                        action: 'start',
-                        Team1: team1,
-                        Team2: team2,
-                        Team1Name: team1_name,
-                        Team2Name: team2_name,
-                        numMaps: num
-                    },
-                    success: function (response) {
-                        if (response.status === 200) {
-                            startGame();
-                            console.log(response.msg);
-                        }
-                        else
-                            alert(response.msg);
-                    }
-                });
-            }, 1000);
-        }
+        clearTimeout(x_timer);
+        x_timer = setTimeout(function () {
+            $.ajax({
+                url: 'match',
+                data: {
+                    action: 'start',
+                    numMaps: num
+                },
+                success: function (response) {
+                    if (response.status === 200) {
+                        startGame();
+                        console.log(response.msg);
+                    } else
+                        alert(response.msg);
+                }
+            });
+        }, 1000);
+
     });
 });
 
@@ -468,9 +421,6 @@ function copy(id) {
     var input = getElement(id, by.id);
     input.select();
     document.execCommand("copy");
-
-    var tooltip = document.getElementById("myTooltip");
-    tooltip.innerHTML = "Copied";
 }
 
 function remove(id) {

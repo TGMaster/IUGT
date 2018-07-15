@@ -5,6 +5,8 @@
  */
 package Config;
 
+import Chat.UserManager;
+
 /**
  *
  * @author S410U
@@ -16,7 +18,7 @@ public class MatchConfig {
         String matchid = "scrim";
         Integer num_maps;
         Integer players_per_team = 5;
-        Integer min_players_to_ready = 10;
+        Integer min_players_to_ready = UserManager.getTeamCT().length + UserManager.getTeamT().length;
         Integer min_spectators_to_ready = 0;
         Boolean skip_veto = false;
         String side_type = "standard";
