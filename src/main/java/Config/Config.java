@@ -13,11 +13,11 @@ public class Config {
 
     public static final String STEAM_API = "9558B95CA63CD2A72FCFCB68FBC2049C";
     public static final String LINK_API = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0001/?key=";
-    public static final String HOST_URL = "localhost:8080";
+    public static final String HOST_URL = "iugamingtour.com";
     public static final String TEAM_CT = "team1";
     public static final String TEAM_T = "team2";
     public static final String TEAM_SPEC = "team3";
-    public static final String SERVER_IP = "1.54.91.45";
+    public static final String SERVER_IP = "27.64.21.24";
     public static final String CONNECT_URL = "steam://connect/" + SERVER_IP + ":27015";
 
     // Websocket
@@ -31,5 +31,5 @@ public class Config {
     public static final String REMOVE_MATCH = "remove";
 
     // Debug
-    public static final Boolean DEBUG = true;
+    public static final Boolean DEBUG = false;
 }

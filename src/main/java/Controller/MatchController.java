@@ -84,7 +84,10 @@ public class MatchController extends HttpServlet {
                 String[] teamT = UserManager.getTeamT();
                 String teamCT_name = UserManager.getTeamNameCT();
                 String teamT_name = UserManager.getTeamNameT();
-                int maps = Integer.parseInt(request.getParameter("numMaps"));
+                String numMaps = request.getParameter("numMaps");
+                int maps = 1;
+                if (numMaps != null)
+                    maps = Integer.parseInt(numMaps);
 
                 if (!isValidMatchConfig(teamCT, teamT, teamCT_name, teamT_name)) {
                     response.setContentType("application/json;charset=UTF-8");
@@ -123,13 +126,15 @@ public class MatchController extends HttpServlet {
                         out.close();
                     }
                 }
+                System.out.println("DIR: " + tempdir);
+                System.out.println("File: " + name);
 
                 // Send rcon to server
                 if (!Config.DEBUG) {
                     try {
                         Rcon rcon = new Rcon(Config.SERVER_IP, 27015, "iugt1234".getBytes());
                         String cmd = "get5_loadmatch_url \"http://" + Config.HOST_URL + "/match?action=file&name=" + name + "\"";
-                        System.out.println(cmd);
+                        System.out.println("RCON:" + cmd);
                         rcon.command(cmd);
                     } catch (AuthenticationException ex) {
                     }

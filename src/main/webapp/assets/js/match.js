@@ -427,3 +427,15 @@ function remove(id) {
     var ele = getElement(id, by.id);
     ele.parentNode.removeChild(ele);
 }
+
+function imgSwapCT(userid) {
+    var team1 = getElement("TeamCT", by.id);
+    var user = getElement(userid, by.id);
+    !team1.contains(user) && swapTeam();
+}
+
+function imgSwapT(userid) {
+    var team2 = getElement("TeamT", by.id);
+    var user = getElement(userid, by.id);
+    !team2.contains(user) && swapTeam();
+}

@@ -67,11 +67,7 @@
 <section style="padding-top: 70px;">
     <form id="teamList">
         <div class="btn-group btn-control" role="group" id="btnGroup">
-            <%--<button class="btn btn-default" id="startBtn" type="submit">--%>
-            <%--<i class="fa fa-play" style="font-size:17px;"></i> <strong>START</strong></strong>--%>
-            <%--</button>--%>
-
-            <button class="btn btn-default" id="switchBtn" onclick="swapTeam()" type="button">
+            <button class="btn btn-default visible-sm-block visible-xs-block" id="switchBtn" onclick="swapTeam()" type="button">
                 <i class="fa fa-exchange" style="font-size:17px;"></i> <strong>SWITCH</strong></strong>
             </button>
 
@@ -84,14 +80,15 @@
             <!--Team List-->
             <div class="teamview">
                 <!--CT Team-->
-                <div class="col-md-3 col-lg-3"><img class="img-responsive" src="assets/images/GR.png"></div>
-                <div class="col-sm-2 team-info">
+                <div class="col-md-3 hidden-sm hidden-xs"><img class="img-responsive" src="assets/images/GR.png"
+                                                               onclick="imgSwapCT(userId)"></div>
+                <div class="col-md-2 col-sm-4 col-xs-4 team-info">
                     <div id="TeamCT"></div>
                 </div>
                 <!--End of CT Team-->
 
                 <!--Match Info-->
-                <div class="col-sm-2 match-info">
+                <div class="col-md-2 col-sm-4 col-xs-4 match-info">
                     <div class="server-info">
                         <img src="assets/images/versus.png" class="img-responsive" alt="VS"/>
                         <div id="onlyOwner"></div>
@@ -103,25 +100,26 @@
                 <!--End of Match Info-->
 
                 <!--T Team-->
-                <div class="col-sm-2 team-info">
+                <div class="col-md-2 col-sm-4 col-xs-4 team-info">
                     <div id="TeamT"></div>
                 </div>
-                <div class="col-md-3 col-lg-3"><img class="img-responsive" src="assets/images/BL.png"></div>
+                <div class="col-md-3 hidden-sm hidden-xs"><img class="img-responsive" src="assets/images/BL.png"
+                                                               onclick="imgSwapT(userId)"></div>
                 <!--End of T Team-->
             </div>
         </div>
     </form>
     <!--Chat Room-->
     <div class="row" style="padding-top: 50px">
-        <div class="col-sm-4"></div>
-        <div class="form-group col-sm-4">
+        <div class="col-md-3 col-sm-2 hidden-xs"></div>
+        <div class="form-group col-md-6 col-sm-8 col-xs-12">
             <textarea class="form-control rounded-0" id="textAreaMessage" rows="15" readonly></textarea>
             <div class="inner-addon right-addon">
                 <input type="text" class="form-control" id="textMessage" placeholder="Message..."/>
             </div>
 
         </div>
-        <div class="col-sm-4"></div>
+        <div class="col-md-3 col-sm-2 hidden-xs"></div>
     </div>
     <!--End of Chat Room-->
 

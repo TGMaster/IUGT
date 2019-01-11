@@ -31,7 +31,7 @@
 <section>
     <nav class="navbar navbar-default navbar-fixed-top navigation-clean-button"
          style="background-color:rgba(0, 0, 0, 0.5);color:rgb(255,255,255);">
-        <div class="container">
+        <div class="container" style="width: 100% !important;">
             <div class="navbar-header">
                 <a class="navbar-brand" href="index.jsp" style="font-family:Aldrich, sans-serif;font-size:18px;">
                     <img class="img-responsive" src="assets/images/iugt-white.png"
