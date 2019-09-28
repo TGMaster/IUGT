@@ -22,10 +22,10 @@
     </script>
     <link rel="icon" href="assets/images/iugt-black.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/match.min.css">
+    <link rel="stylesheet" href="assets/css/match.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 
 </head>
 <body onunload="return closeSocket()">
